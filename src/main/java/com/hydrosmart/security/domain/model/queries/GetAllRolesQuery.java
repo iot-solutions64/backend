@@ -1,4 +1,4 @@
 package com.hydrosmart.security.domain.model.queries;
 
-public record GelAllRolesQuery() {
+public record GetAllRolesQuery() {
 }
