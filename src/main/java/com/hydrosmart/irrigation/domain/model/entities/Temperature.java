@@ -1,11 +1,7 @@
 package com.hydrosmart.irrigation.domain.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Temperature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +21,16 @@ public class Temperature {
     @NotBlank
     private float temperatureThreshold;
 
-    @NotBlank
-    private String temperatureStatus;
+    @ManyToOne
+    @JoinColumn(name = "temperature_status", nullable = false)
+    private TemperatureStatus temperatureStatus;
 
     private String temperatureSuggestedActions;
+
+    public Temperature(TemperatureStatus temperatureStatus){
+        this.temperature = 0;
+        this.temperatureThreshold = 0;
+        this.temperatureStatus = temperatureStatus;
+        this.temperatureSuggestedActions = "";
+    }
 }

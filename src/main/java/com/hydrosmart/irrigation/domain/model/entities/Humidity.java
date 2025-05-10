@@ -1,11 +1,7 @@
 package com.hydrosmart.irrigation.domain.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Humidity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +20,17 @@ public class Humidity {
 
     @NotBlank
     private float humidityThreshold;
-    @NotBlank
-    private String humidityStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "humidity_status", nullable = false)
+    private HumidityStatus humidityStatus;
 
     private String humiditySuggestedActions;
+
+    public Humidity(HumidityStatus humidityStatus){
+        this.humidity = 0;
+        this.humidityThreshold = 100;
+        this.humidityStatus = humidityStatus;
+        this.humiditySuggestedActions = "";
+    }
 }
