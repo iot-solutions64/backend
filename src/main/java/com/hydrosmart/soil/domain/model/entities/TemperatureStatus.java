@@ -1,6 +1,6 @@
-package com.hydrosmart.irrigation.domain.model.entities;
+package com.hydrosmart.soil.domain.model.entities;
 
-import com.hydrosmart.irrigation.domain.model.valueobjects.TemperatureStatusList;
+import com.hydrosmart.soil.domain.model.valueobjects.TemperatureStatusList;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

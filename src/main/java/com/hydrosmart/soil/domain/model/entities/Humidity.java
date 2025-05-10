@@ -1,4 +1,4 @@
-package com.hydrosmart.irrigation.domain.model.entities;
+package com.hydrosmart.soil.domain.model.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

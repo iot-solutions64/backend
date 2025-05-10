@@ -1,8 +1,8 @@
-package com.hydrosmart.irrigation.domain.model.aggregates;
+package com.hydrosmart.soil.domain.model.aggregates;
 
-import com.hydrosmart.irrigation.domain.model.commands.CreateCropCommand;
-import com.hydrosmart.irrigation.domain.model.entities.Humidity;
-import com.hydrosmart.irrigation.domain.model.entities.Temperature;
+import com.hydrosmart.soil.domain.model.commands.CreateCropCommand;
+import com.hydrosmart.soil.domain.model.entities.Humidity;
+import com.hydrosmart.soil.domain.model.entities.Temperature;
 import com.hydrosmart.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

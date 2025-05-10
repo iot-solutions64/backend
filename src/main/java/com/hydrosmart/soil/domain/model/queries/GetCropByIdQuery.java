@@ -1,4 +1,4 @@
-package com.hydrosmart.irrigation.domain.model.queries;
+package com.hydrosmart.soil.domain.model.queries;
 
 public record GetCropByIdQuery(Long cropId) {
     public GetCropByIdQuery {

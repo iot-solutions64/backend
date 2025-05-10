@@ -1,4 +1,4 @@
-package com.hydrosmart.irrigation.domain.model.commands;
+package com.hydrosmart.soil.domain.model.commands;
 
 import jakarta.validation.constraints.NotBlank;
 
