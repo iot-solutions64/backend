@@ -8,11 +8,9 @@ import jakarta.validation.constraints.NotBlank;
  * @param temperature The current temperature of the crop
  * @param temperatureMinThreshold The min amount of temperature the crop should get
  * @param temperatureMaxThreshold The max amount of temperature the crop should get
- * @param temperatureSuggestedActions The actions the user should take to improve the temperature status
  */
 public record CreateTemperatureCommand(
         @NotBlank float temperature,
         @NotBlank float temperatureMinThreshold,
-        @NotBlank float temperatureMaxThreshold,
-        @NotBlank String temperatureSuggestedActions
+        @NotBlank float temperatureMaxThreshold
 ) {}

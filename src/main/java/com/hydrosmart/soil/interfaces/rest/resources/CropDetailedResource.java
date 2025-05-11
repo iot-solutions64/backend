@@ -9,12 +9,10 @@ package com.hydrosmart.soil.interfaces.rest.resources;
  * @param temperatureMinThreshold The min amount of temperature the crop should get
  * @param temperatureMaxThreshold The max amount of temperature the crop should get
  * @param temperatureStatus The current status of the temperature
- * @param temperatureSuggestedActions The actions the user should take to improve the temperature status
  * @param humidity The current humidity of the crop
  * @param humidityMinThreshold The min amount of temperature the crop should get
  * @param humidityMaxThreshold The max amount of temperature the crop should get
  * @param humidityStatus The current status of the humidity
- * @param humiditySuggestedActions The actions the user should take to improve the humidity status
  */
 public record CropDetailedResource(
         Long cropId,
@@ -23,12 +21,10 @@ public record CropDetailedResource(
         Float temperatureMinThreshold,
         Float temperatureMaxThreshold,
         String temperatureStatus,
-        String temperatureSuggestedActions,
         Float humidity,
         Float humidityMinThreshold,
         Float humidityMaxThreshold,
-        String humidityStatus,
-        String humiditySuggestedActions
+        String humidityStatus
         /*
         Float waterTankWaterAmountRemaining,
         Float waterTankMaxWaterCapacity,

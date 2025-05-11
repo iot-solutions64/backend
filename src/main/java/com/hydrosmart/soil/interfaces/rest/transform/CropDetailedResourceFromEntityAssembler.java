@@ -14,12 +14,10 @@ public class CropDetailedResourceFromEntityAssembler {
                 temperature.getTemperatureMinThreshold(),
                 temperature.getTemperatureMaxThreshold(),
                 temperature.getTemperatureStatus().toString(),
-                temperature.getTemperatureSuggestedActions(),
                 humidity.getHumidity(),
                 humidity.getHumidityMinThreshold(),
                 humidity.getHumidityMaxThreshold(),
-                humidity.getHumidityStatus().toString(),
-                humidity.getHumiditySuggestedActions()
+                humidity.getHumidityStatus().toString()
         );
     }
 }
