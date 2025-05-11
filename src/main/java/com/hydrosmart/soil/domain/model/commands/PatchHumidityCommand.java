@@ -5,8 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 /**
  * <h3>Patch Humidity Command</h3>
  * <p>This record allows to change the humidity of the crop</p>
+ * @param id The id of the humidity
  * @param humidity The humidity of the crop, in °C
  */
 public record PatchHumidityCommand(
+        @NotBlank Long id,
         @NotBlank float humidity
 ) {}

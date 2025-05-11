@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
  * @param temperature The current temperature of the crop
  */
 public record PatchTemperatureCommand(
+        @NotBlank Long id,
         @NotBlank float temperature
 ) {
 }

@@ -31,7 +31,7 @@ public class Temperature {
     @JoinColumn(name = "temperature_status", nullable = false)
     private TemperatureStatus temperatureStatus;
 
-    public Temperature(CreateTemperatureCommand command, TemperatureStatus temperatureStatus, String temperatureSuggestedActions){
+    public Temperature(CreateTemperatureCommand command, TemperatureStatus temperatureStatus){
         this.temperature = command.temperature();
         this.temperatureMinThreshold = command.temperatureMinThreshold();
         this.temperatureMaxThreshold = command.temperatureMaxThreshold();
@@ -46,8 +46,9 @@ public class Temperature {
         return this;
     }
 
-    public Temperature patchTemperature(PatchTemperatureCommand command){
+    public Temperature patchTemperature(PatchTemperatureCommand command, TemperatureStatus temperatureStatus){
         this.temperature = command.temperature();
+        this.temperatureStatus = temperatureStatus;
         return this;
     }
 }

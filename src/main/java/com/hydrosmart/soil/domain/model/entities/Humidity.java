@@ -31,28 +31,24 @@ public class Humidity {
     @JoinColumn(name = "humidity_status", nullable = false)
     private HumidityStatus humidityStatus;
 
-    public Humidity(HumidityStatus humidityStatus){
-        this.humidity = 0;
-        this.humidityMinThreshold = 0;
-        this.humidityMaxThreshold = 100;
+    public Humidity(CreateHumidityCommand command, HumidityStatus humidityStatus){
+        this.humidity = command.humidity();
+        this.humidityMinThreshold = command.humidityMinThreshold();
+        this.humidityMaxThreshold = command.humidityMaxThreshold();
         this.humidityStatus = humidityStatus;
     }
 
-    public Humidity(CreateHumidityCommand command){
+    public Humidity updateHumidity(UpdateHumidityCommand command, HumidityStatus humidityStatus){
         this.humidity = command.humidity();
         this.humidityMinThreshold = command.humidityMinThreshold();
         this.humidityMaxThreshold = command.humidityMaxThreshold();
-    }
-
-    public Humidity updateHumidity(UpdateHumidityCommand command){
-        this.humidity = command.humidity();
-        this.humidityMinThreshold = command.humidityMinThreshold();
-        this.humidityMaxThreshold = command.humidityMaxThreshold();
+        this.humidityStatus = humidityStatus;
         return this;
     }
 
-    public Humidity patchHumidity(PatchHumidityCommand command){
+    public Humidity patchHumidity(PatchHumidityCommand command, HumidityStatus humidityStatus){
         this.humidity = command.humidity();
+        this.humidityStatus = humidityStatus;
         return this;
     }
 }
