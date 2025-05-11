@@ -4,6 +4,11 @@ package com.hydrosmart.soil.interfaces.rest.resources;
  * <h3>Create Crop Resource</h3>
  * <p>This resource is used to create a crop</p>
  * @param userId The id of the user owner of the crop
+ * @param temperatureId The id of the temperature class related to the crop
+ * @param humidityId The id of the humidity class related to the crop
  */
-public record CreateCropResource(Long userId) {
-}
+public record CreateCropResource(
+        Long userId,
+        Long temperatureId,
+        Long humidityId
+) {}
