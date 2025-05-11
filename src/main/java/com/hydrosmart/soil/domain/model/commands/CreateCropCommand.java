@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CreateCropCommand(
         @NotBlank Long temperatureId,
-        @NotBlank Long humidityId
-) {
-}
+        @NotBlank Long humidityId,
+        @NotBlank Long userId
+) {}
