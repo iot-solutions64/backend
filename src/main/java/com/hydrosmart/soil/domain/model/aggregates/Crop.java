@@ -1,5 +1,6 @@
 package com.hydrosmart.soil.domain.model.aggregates;
 
+import com.hydrosmart.security.domain.model.aggregates.User;
 import com.hydrosmart.soil.domain.model.commands.CreateCropCommand;
 import com.hydrosmart.soil.domain.model.entities.Humidity;
 import com.hydrosmart.soil.domain.model.entities.Temperature;
@@ -23,13 +24,20 @@ public class Crop extends AuditableAbstractAggregateRoot<Crop> {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "temperature_id", nullable = false)
-    private Temperature temperatureId;
+    private Temperature temperature;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "humidity_id", nullable = false)
-    private Humidity humidityId;
+    private Humidity humidity;
 
-    Crop(CreateCropCommand command){
+    @Getter
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    public Crop(Temperature temperature, Humidity humidity, User user) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.user = user;
     }
 }
