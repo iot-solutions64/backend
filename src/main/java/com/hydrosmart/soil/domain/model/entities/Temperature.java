@@ -19,7 +19,10 @@ public class Temperature {
     private float temperature;
 
     @NotBlank
-    private float temperatureThreshold;
+    private float temperatureMinThreshold;
+
+    @NotBlank
+    private float temperatureMaxThreshold;
 
     @ManyToOne
     @JoinColumn(name = "temperature_status", nullable = false)
@@ -29,7 +32,8 @@ public class Temperature {
 
     public Temperature(TemperatureStatus temperatureStatus){
         this.temperature = 0;
-        this.temperatureThreshold = 0;
+        this.temperatureMinThreshold = 0;
+        this.temperatureMaxThreshold = 100;
         this.temperatureStatus = temperatureStatus;
         this.temperatureSuggestedActions = "";
     }
