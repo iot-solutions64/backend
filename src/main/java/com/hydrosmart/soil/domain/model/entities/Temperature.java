@@ -1,5 +1,8 @@
 package com.hydrosmart.soil.domain.model.entities;
 
+import com.hydrosmart.soil.domain.model.commands.CreateTemperatureCommand;
+import com.hydrosmart.soil.domain.model.commands.PatchTemperatureCommand;
+import com.hydrosmart.soil.domain.model.commands.UpdateTemperatureCommand;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -30,11 +33,26 @@ public class Temperature {
 
     private String temperatureSuggestedActions;
 
-    public Temperature(TemperatureStatus temperatureStatus){
-        this.temperature = 0;
-        this.temperatureMinThreshold = 0;
-        this.temperatureMaxThreshold = 100;
+    public Temperature(CreateTemperatureCommand command, TemperatureStatus temperatureStatus){
+        this.temperature = command.temperature();
+        this.temperatureMinThreshold = command.temperatureMinThreshold();
+        this.temperatureMaxThreshold = command.temperatureMaxThreshold();
         this.temperatureStatus = temperatureStatus;
-        this.temperatureSuggestedActions = "";
+        this.temperatureSuggestedActions = command.temperatureSuggestedActions();
+    }
+
+    public Temperature updateTemperature(UpdateTemperatureCommand command, TemperatureStatus temperatureStatus){
+        this.temperature = command.temperature();
+        this.temperatureMinThreshold = command.temperatureMinThreshold();
+        this.temperatureMaxThreshold = command.temperatureMaxThreshold();
+        this.temperatureStatus = temperatureStatus;
+        this.temperatureSuggestedActions = command.temperatureSuggestedActions();
+        return this;
+    }
+
+    public Temperature patchTemperature(PatchTemperatureCommand command){
+        this.temperature = command.temperature();
+        this.temperatureSuggestedActions = command.temperatureSuggestedActions();
+        return this;
     }
 }
