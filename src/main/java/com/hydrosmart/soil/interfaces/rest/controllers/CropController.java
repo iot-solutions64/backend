@@ -3,6 +3,8 @@ package com.hydrosmart.soil.interfaces.rest.controllers;
 import com.hydrosmart.shared.constants.AppConstants;
 import com.hydrosmart.soil.domain.model.queries.GetAllCropsByUserIdQuery;
 import com.hydrosmart.soil.domain.model.queries.GetCropByIdQuery;
+import com.hydrosmart.soil.domain.model.valueobjects.HumidityStatusList;
+import com.hydrosmart.soil.domain.model.valueobjects.TemperatureStatusList;
 import com.hydrosmart.soil.domain.services.commandservices.CropCommandService;
 import com.hydrosmart.soil.domain.services.commandservices.HumidityCommandService;
 import com.hydrosmart.soil.domain.services.commandservices.TemperatureCommandService;
@@ -36,8 +38,22 @@ public class CropController {
     }
 
     @PostMapping
-    public ResponseEntity<CropReferenceResource> createCrop(){
-        return null;
+    public ResponseEntity<CropReferenceResource> createCrop(@RequestBody CreateCropResource resource){
+        var createTemperatureResource = new CreateTemperatureResource(0f, resource.temperatureMinThreshold(), resource.temperatureMaxThreshold());
+        var createTemperatureCommand = CreateTemperatureCommandFromResourceAssembler.toCommandFromResource(createTemperatureResource);
+        var newTemperature = temperatureCommandService.handle(createTemperatureCommand);
+        if(newTemperature.isEmpty()) return ResponseEntity.badRequest().build();
+
+        var createHumidityResource = new CreateHumidityResource(0f, resource.humidityMinThreshold(), resource.humidityMaxThreshold());
+        var createHumidityCommand = CreateHumidityCommandFromResourceAssembler.toCommandFromResource(createHumidityResource);
+        var newHumidity = humidityCommandService.handle(createHumidityCommand);
+        if(newHumidity.isEmpty()) return ResponseEntity.badRequest().build();
+
+        var createCropCommand = CreateCropCommandFromResourceAssembler.toCommandFromResource(resource, newTemperature.get().getId(), newHumidity.get().getId());
+        var newCrop = cropCommandService.handle(createCropCommand);
+        if(newCrop.isEmpty()) return ResponseEntity.badRequest().build();
+        return newCrop.map(value -> ResponseEntity.ok(CropReferenceResourceFromEntityAssembler.toResourceFromEntity(value)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{cropId}/reference")

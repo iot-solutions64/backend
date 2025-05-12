@@ -4,12 +4,12 @@ import com.hydrosmart.soil.domain.model.commands.CreateCropCommand;
 import com.hydrosmart.soil.interfaces.rest.resources.CreateCropResource;
 
 public class CreateCropCommandFromResourceAssembler {
-    public static CreateCropCommand toCommandFromResource(CreateCropResource resource) {
+    public static CreateCropCommand toCommandFromResource(CreateCropResource resource, Long temperatureId, Long humidityId) {
         return new CreateCropCommand(
                 resource.name(),
                 resource.userId(),
-                resource.temperatureId(),
-                resource.humidityId()
+                temperatureId,
+                humidityId
         );
     }
 }
