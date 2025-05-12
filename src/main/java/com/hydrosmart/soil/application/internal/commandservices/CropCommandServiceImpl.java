@@ -35,7 +35,7 @@ public class CropCommandServiceImpl implements CropCommandService {
         var temperature = temperatureRepository.findById(command.temperatureId()).orElseThrow(() -> new RuntimeException("Temperature not found"));
         var humidity = humidityRepository.findById(command.humidityId()).orElseThrow(() -> new RuntimeException("Humidity not found"));
         try {
-            Crop crop = new Crop(temperature, humidity, user);
+            Crop crop = new Crop(command, temperature, humidity, user);
             cropRepository.save(crop);
             return Optional.of(crop);
         } catch (Exception e) {

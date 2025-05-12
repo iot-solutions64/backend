@@ -6,6 +6,7 @@ import com.hydrosmart.soil.interfaces.rest.resources.CreateCropResource;
 public class CreateCropCommandFromResourceAssembler {
     public static CreateCropCommand toCommandFromResource(CreateCropResource resource) {
         return new CreateCropCommand(
+                resource.name(),
                 resource.userId(),
                 resource.temperatureId(),
                 resource.humidityId()
