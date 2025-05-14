@@ -8,8 +8,8 @@ package com.hydrosmart.soil.interfaces.rest.resources;
  * @param temperatureMaxThreshold The max amount of temperature the crop should get
  */
 public record CreateTemperatureResource(
-        float temperature,
-        float temperatureMinThreshold,
-        float temperatureMaxThreshold
+        Float temperature,
+        Float temperatureMinThreshold,
+        Float temperatureMaxThreshold
 ) {
 }

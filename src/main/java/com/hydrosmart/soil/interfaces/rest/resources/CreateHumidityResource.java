@@ -8,8 +8,8 @@ package com.hydrosmart.soil.interfaces.rest.resources;
  * @param humidityMaxThreshold The max amount of temperature the crop should get
  */
 public record CreateHumidityResource(
-        float humidity,
-        float humidityMinThreshold,
-        float humidityMaxThreshold
+        Float humidity,
+        Float humidityMinThreshold,
+        Float humidityMaxThreshold
 ) {
 }

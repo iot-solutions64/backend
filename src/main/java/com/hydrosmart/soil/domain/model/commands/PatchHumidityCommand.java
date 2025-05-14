@@ -1,6 +1,6 @@
 package com.hydrosmart.soil.domain.model.commands;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * <h3>Patch Humidity Command</h3>
@@ -9,6 +9,6 @@ import jakarta.validation.constraints.NotBlank;
  * @param humidity The humidity of the crop, in °C
  */
 public record PatchHumidityCommand(
-        @NotBlank Long id,
-        @NotBlank float humidity
+        @NotNull Long id,
+        @NotNull Float humidity
 ) {}

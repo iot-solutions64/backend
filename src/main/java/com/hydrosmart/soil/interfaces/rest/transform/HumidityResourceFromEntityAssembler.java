@@ -9,7 +9,7 @@ public class HumidityResourceFromEntityAssembler {
                 entity.getHumidity(),
                 entity.getHumidityMinThreshold(),
                 entity.getHumidityMinThreshold(),
-                entity.getHumidityStatus().toString()
+                entity.getHumidityStatus().getTemperatureStatusName()
         );
     }
 }

@@ -6,5 +6,5 @@ package com.hydrosmart.soil.interfaces.rest.resources;
  * @param temperature The current temperature of the crop
  */
 public record PatchTemperatureResource(
-        float temperature
+        Float temperature
 ) {}

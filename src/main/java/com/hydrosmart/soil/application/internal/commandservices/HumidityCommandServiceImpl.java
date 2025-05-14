@@ -23,11 +23,8 @@ public class HumidityCommandServiceImpl implements HumidityCommandService {
         this.humidityStatusRepository = humidityStatusRepository;
     }
 
-    private void validateHumidity(float humidity, float min, float max){
-        if(min > max)
-            throw new RuntimeException("The min threshold cannot be greater than the max threshold");
-        if(humidity > max)
-            throw new RuntimeException("The current humidity is greater than the max threshold. Reconsider the max threshold");
+    private void validateHumidity(Float min, Float max){
+        if(min > max) throw new RuntimeException("The min threshold cannot be greater than the max threshold");
     }
 
     private HumidityStatus findStatus(HumidityStatusList status){
@@ -35,7 +32,7 @@ public class HumidityCommandServiceImpl implements HumidityCommandService {
                 .orElseThrow(() -> new RuntimeException("Status not found"));
     }
 
-    private HumidityStatus validateHumidityStatus(float humidity, float min, float max){
+    private HumidityStatus validateHumidityStatus(Float humidity, Float min, Float max){
         if(humidity >= min && humidity <= max) return findStatus(HumidityStatusList.FAVORABLE);
         if(humidity > max && humidity < max + 5) return findStatus(HumidityStatusList.SLIGHTLY_UNFAVORABLE_OVER);
         if(humidity < min && humidity > min - 5) return findStatus(HumidityStatusList.SLIGHTLY_UNFAVORABLE_UNDER);
@@ -52,7 +49,7 @@ public class HumidityCommandServiceImpl implements HumidityCommandService {
 
     @Override
     public Optional<Humidity> handle(CreateHumidityCommand command) {
-        validateHumidity(command.humidity(), command.humidityMinThreshold(), command.humidityMaxThreshold());
+        validateHumidity(command.humidityMinThreshold(), command.humidityMaxThreshold());
         var status = findStatus(HumidityStatusList.FAVORABLE);
         var humidity = new Humidity(command,status);
         humidityRepository.save(humidity);
@@ -62,7 +59,7 @@ public class HumidityCommandServiceImpl implements HumidityCommandService {
     @Override
     public Optional<Humidity> handle(UpdateHumidityCommand command) {
         var foundHumidity = findHumidity(command.id());
-        validateHumidity(command.humidity(), command.humidityMinThreshold(), command.humidityMaxThreshold());
+        validateHumidity(command.humidityMinThreshold(), command.humidityMaxThreshold());
         var status = validateHumidityStatus(command.humidity(), command.humidityMinThreshold(), command.humidityMaxThreshold());
         var updatedHumidity = humidityRepository.save(foundHumidity.updateHumidity(command, status));
         return Optional.of(updatedHumidity);
@@ -71,7 +68,7 @@ public class HumidityCommandServiceImpl implements HumidityCommandService {
     @Override
     public void handle(PatchHumidityCommand command) {
         var foundHumidity = findHumidity(command.id());
-        validateHumidity(command.humidity(), foundHumidity.getHumidityMinThreshold(), foundHumidity.getHumidityMaxThreshold());
+        validateHumidity(foundHumidity.getHumidityMinThreshold(), foundHumidity.getHumidityMaxThreshold());
         var status = validateHumidityStatus(command.humidity(), foundHumidity.getHumidityMinThreshold(), foundHumidity.getHumidityMaxThreshold());
         humidityRepository.save(foundHumidity.patchHumidity(command, status));
     }

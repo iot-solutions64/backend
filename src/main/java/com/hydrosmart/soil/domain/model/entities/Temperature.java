@@ -4,7 +4,7 @@ import com.hydrosmart.soil.domain.model.commands.CreateTemperatureCommand;
 import com.hydrosmart.soil.domain.model.commands.PatchTemperatureCommand;
 import com.hydrosmart.soil.domain.model.commands.UpdateTemperatureCommand;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,14 +18,14 @@ public class Temperature {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private float temperature;
+    @NotNull
+    private Float temperature;
 
-    @NotBlank
-    private float temperatureMinThreshold;
+    @NotNull
+    private Float temperatureMinThreshold;
 
-    @NotBlank
-    private float temperatureMaxThreshold;
+    @NotNull
+    private Float temperatureMaxThreshold;
 
     @ManyToOne
     @JoinColumn(name = "temperature_status", nullable = false)

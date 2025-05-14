@@ -1,6 +1,7 @@
 package com.hydrosmart.soil.domain.model.commands;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * <h3>Create Crop Command</h3>
@@ -12,7 +13,7 @@ import jakarta.validation.constraints.NotBlank;
  */
 public record CreateCropCommand(
         @NotBlank String name,
-        @NotBlank Long userId,
-        @NotBlank Long temperatureId,
-        @NotBlank Long humidityId
+        @NotNull Long userId,
+        @NotNull Long temperatureId,
+        @NotNull Long humidityId
 ) {}

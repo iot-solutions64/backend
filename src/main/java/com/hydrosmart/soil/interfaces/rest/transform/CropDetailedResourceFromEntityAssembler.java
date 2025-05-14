@@ -13,11 +13,11 @@ public class CropDetailedResourceFromEntityAssembler {
                 temperature.getTemperature(),
                 temperature.getTemperatureMinThreshold(),
                 temperature.getTemperatureMaxThreshold(),
-                temperature.getTemperatureStatus().toString(),
+                temperature.getTemperatureStatus().getTemperatureStatusName(),
                 humidity.getHumidity(),
                 humidity.getHumidityMinThreshold(),
                 humidity.getHumidityMaxThreshold(),
-                humidity.getHumidityStatus().toString()
+                humidity.getHumidityStatus().getTemperatureStatusName()
         );
     }
 }

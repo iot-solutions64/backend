@@ -11,8 +11,8 @@ import jakarta.validation.constraints.NotBlank;
  * @param temperatureStatus The current status of the temperature
  */
 public record TemperatureResource(
-        float temperature,
-        float temperatureMinThreshold,
-        float temperatureMaxThreshold,
+        Float temperature,
+        Float temperatureMinThreshold,
+        Float temperatureMaxThreshold,
         String temperatureStatus
 ) {}

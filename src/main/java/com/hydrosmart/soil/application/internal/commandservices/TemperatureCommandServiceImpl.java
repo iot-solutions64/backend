@@ -21,11 +21,8 @@ public class TemperatureCommandServiceImpl implements TemperatureCommandService 
         this.temperatureRepository = temperatureRepository;
         this.temperatureStatusRepository = temperatureStatusRepository;
     }
-    private void validateTemperature(float temperature, float min, float max){
-        if(min > max)
-            throw new RuntimeException("The min threshold cannot be greater than the max threshold");
-        if(temperature > max)
-            throw new RuntimeException("The current temperature is greater than the max threshold. Reconsider the max threshold");
+    private void validateTemperature(Float min, Float max){
+        if(min > max) throw new RuntimeException("The min threshold cannot be greater than the max threshold");
     }
 
     private TemperatureStatus findStatus(TemperatureStatusList status){
@@ -33,7 +30,7 @@ public class TemperatureCommandServiceImpl implements TemperatureCommandService 
                 .orElseThrow(() -> new RuntimeException("Status not found"));
     }
 
-    private TemperatureStatus validateTemperatureStatus(float temperature, float min, float max){
+    private TemperatureStatus validateTemperatureStatus(Float temperature, Float min, Float max){
         if(temperature >= min && temperature <= max) return findStatus(TemperatureStatusList.FAVORABLE);
         if(temperature > max && temperature < max + 5) return findStatus(TemperatureStatusList.SLIGHTLY_UNFAVORABLE_OVER);
         if(temperature < min && temperature > min - 5) return findStatus(TemperatureStatusList.SLIGHTLY_UNFAVORABLE_UNDER);
@@ -51,7 +48,7 @@ public class TemperatureCommandServiceImpl implements TemperatureCommandService 
 
     @Override
     public Optional<Temperature> handle(CreateTemperatureCommand command) {
-        validateTemperature(command.temperature(), command.temperatureMinThreshold(), command.temperatureMaxThreshold());
+        validateTemperature(command.temperatureMinThreshold(), command.temperatureMaxThreshold());
         var status = findStatus(TemperatureStatusList.FAVORABLE);
         var temperature = new Temperature(command, status);
         temperatureRepository.save(temperature);
@@ -61,7 +58,7 @@ public class TemperatureCommandServiceImpl implements TemperatureCommandService 
     @Override
     public Optional<Temperature> handle(UpdateTemperatureCommand command) {
         var foundTemperature = findTemperature(command.id());
-        validateTemperature(command.temperature(), command.temperatureMinThreshold(), command.temperatureMaxThreshold());
+        validateTemperature(command.temperatureMinThreshold(), command.temperatureMaxThreshold());
         var status = validateTemperatureStatus(command.temperature(), command.temperatureMinThreshold(), command.temperatureMaxThreshold());
         var updatedTemperature = temperatureRepository.save(foundTemperature.updateTemperature(command, status));
         return Optional.of(updatedTemperature);
@@ -70,7 +67,7 @@ public class TemperatureCommandServiceImpl implements TemperatureCommandService 
     @Override
     public void handle(PatchTemperatureCommand command) {
         var foundTemperature = findTemperature(command.id());
-        validateTemperature(command.temperature(), foundTemperature.getTemperatureMinThreshold(), foundTemperature.getTemperatureMaxThreshold());
+        validateTemperature(foundTemperature.getTemperatureMinThreshold(), foundTemperature.getTemperatureMaxThreshold());
         var status = validateTemperatureStatus(command.temperature(), foundTemperature.getTemperatureMinThreshold(), foundTemperature.getTemperatureMaxThreshold());
         temperatureRepository.save(foundTemperature.patchTemperature(command, status));
     }

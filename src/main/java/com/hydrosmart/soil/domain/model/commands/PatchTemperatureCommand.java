@@ -1,6 +1,6 @@
 package com.hydrosmart.soil.domain.model.commands;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * <h3>Patch Temperature Command</h3>
@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
  * @param temperature The current temperature of the crop
  */
 public record PatchTemperatureCommand(
-        @NotBlank Long id,
-        @NotBlank float temperature
+        @NotNull Long id,
+        @NotNull Float temperature
 ) {
 }

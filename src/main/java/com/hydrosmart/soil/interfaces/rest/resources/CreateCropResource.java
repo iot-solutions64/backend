@@ -13,8 +13,8 @@ package com.hydrosmart.soil.interfaces.rest.resources;
 public record CreateCropResource(
         String name,
         Long userId,
-        float temperatureMinThreshold,
-        float temperatureMaxThreshold,
-        float humidityMinThreshold,
-        float humidityMaxThreshold
+        Float temperatureMinThreshold,
+        Float temperatureMaxThreshold,
+        Float humidityMinThreshold,
+        Float humidityMaxThreshold
 ) {}

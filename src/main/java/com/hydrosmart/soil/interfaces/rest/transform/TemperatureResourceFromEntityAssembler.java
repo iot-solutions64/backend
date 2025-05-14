@@ -9,7 +9,7 @@ public class TemperatureResourceFromEntityAssembler {
                 entity.getTemperature(),
                 entity.getTemperatureMinThreshold(),
                 entity.getTemperatureMaxThreshold(),
-                entity.getTemperatureStatus().toString()
+                entity.getTemperatureStatus().getTemperatureStatusName()
         );
     }
 }

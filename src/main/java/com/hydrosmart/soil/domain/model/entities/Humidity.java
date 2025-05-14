@@ -4,7 +4,7 @@ import com.hydrosmart.soil.domain.model.commands.CreateHumidityCommand;
 import com.hydrosmart.soil.domain.model.commands.PatchHumidityCommand;
 import com.hydrosmart.soil.domain.model.commands.UpdateHumidityCommand;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,14 +18,14 @@ public class Humidity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private float humidity;
+    @NotNull
+    private Float humidity;
 
-    @NotBlank
-    private float humidityMinThreshold;
+    @NotNull
+    private Float humidityMinThreshold;
 
-    @NotBlank
-    private float humidityMaxThreshold;
+    @NotNull
+    private Float humidityMaxThreshold;
 
     @ManyToOne
     @JoinColumn(name = "humidity_status", nullable = false)

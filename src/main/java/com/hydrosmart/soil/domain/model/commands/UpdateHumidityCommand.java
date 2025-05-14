@@ -1,6 +1,6 @@
 package com.hydrosmart.soil.domain.model.commands;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * <h3>Update Humidity Command</h3>
@@ -11,9 +11,9 @@ import jakarta.validation.constraints.NotBlank;
  * @param humidityMaxThreshold The max amount of temperature the crop should get
  */
 public record UpdateHumidityCommand(
-        @NotBlank Long id,
-        @NotBlank float humidity,
-        @NotBlank float humidityMinThreshold,
-        @NotBlank float humidityMaxThreshold
+        @NotNull Long id,
+        @NotNull Float humidity,
+        @NotNull Float humidityMinThreshold,
+        @NotNull Float humidityMaxThreshold
 ) {
 }

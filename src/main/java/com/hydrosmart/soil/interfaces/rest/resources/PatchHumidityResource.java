@@ -6,6 +6,6 @@ package com.hydrosmart.soil.interfaces.rest.resources;
  * @param humidity The current humidity of the crop
  */
 public record PatchHumidityResource(
-        float humidity
+        Float humidity
 ) {
 }

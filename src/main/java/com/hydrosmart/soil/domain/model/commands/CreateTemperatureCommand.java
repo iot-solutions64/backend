@@ -1,6 +1,6 @@
 package com.hydrosmart.soil.domain.model.commands;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * <h3>Create Temperature Command</h3>
@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotBlank;
  * @param temperatureMaxThreshold The max amount of temperature the crop should get
  */
 public record CreateTemperatureCommand(
-        @NotBlank float temperature,
-        @NotBlank float temperatureMinThreshold,
-        @NotBlank float temperatureMaxThreshold
+        @NotNull Float temperature,
+        @NotNull Float temperatureMinThreshold,
+        @NotNull Float temperatureMaxThreshold
 ) {}

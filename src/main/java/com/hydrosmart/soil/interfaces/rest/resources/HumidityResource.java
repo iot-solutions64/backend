@@ -9,9 +9,9 @@ package com.hydrosmart.soil.interfaces.rest.resources;
  * @param humidityStatus The current status of the humidity
  */
 public record HumidityResource(
-        float humidity,
-        float humidityMinThreshold,
-        float humidityMaxThreshold,
+        Float humidity,
+        Float humidityMinThreshold,
+        Float humidityMaxThreshold,
         String humidityStatus
 ) {
 }
