@@ -6,7 +6,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:24-jdk
 WORKDIR /app
 
-COPY --from=builder /app/target/*.jar app.jar
+COPY --from=builder /app/target/hydrosmart-0.0.1-SNAPSHOT.jar app.jar
 
 ENV PORT=8080
 EXPOSE ${PORT}
