@@ -32,10 +32,10 @@ public class TemperatureCommandServiceImpl implements TemperatureCommandService 
 
     private TemperatureStatus validateTemperatureStatus(Float temperature, Float min, Float max){
         if(temperature >= min && temperature <= max) return findStatus(TemperatureStatusList.FAVORABLE);
-        if(temperature > max && temperature < max + 5) return findStatus(TemperatureStatusList.SLIGHTLY_UNFAVORABLE_OVER);
-        if(temperature < min && temperature > min - 5) return findStatus(TemperatureStatusList.SLIGHTLY_UNFAVORABLE_UNDER);
-        if(temperature > max + 5 && temperature < max - 10) return findStatus(TemperatureStatusList.UNFAVORABLE_OVER);
-        if(temperature < min + 5 && temperature > min - 10) return findStatus(TemperatureStatusList.UNFAVORABLE_UNDER);
+        if(temperature > max && temperature <= max + 5) return findStatus(TemperatureStatusList.SLIGHTLY_UNFAVORABLE_OVER);
+        if(temperature < min && temperature >= min - 5) return findStatus(TemperatureStatusList.SLIGHTLY_UNFAVORABLE_UNDER);
+        if(temperature > max + 5 && temperature <= max + 10) return findStatus(TemperatureStatusList.UNFAVORABLE_OVER);
+        if(temperature < min - 5 && temperature >= min - 10) return findStatus(TemperatureStatusList.UNFAVORABLE_UNDER);
         if(temperature > max + 10) return findStatus(TemperatureStatusList.BURNING);
         return findStatus(TemperatureStatusList.FREEZING);
     }
