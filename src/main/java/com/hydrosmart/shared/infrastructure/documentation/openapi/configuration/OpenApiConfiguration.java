@@ -7,8 +7,11 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class OpenApiConfiguration {
@@ -26,6 +29,11 @@ public class OpenApiConfiguration {
                 .externalDocs(new ExternalDocumentation()
                         .description("Task Manager API")
                         .url("https:/task-manager.wiki.github.io/docs"));
+
+        openApi.servers(List.of(
+                new Server().url("http://localhost:8080").description("Development Server"),
+                new Server().url("https://api-hydrosmart.up.railway.app").description("Production Server")
+        ));
 
         // Add security scheme
 
