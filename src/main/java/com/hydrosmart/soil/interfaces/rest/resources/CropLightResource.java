@@ -7,8 +7,8 @@ package com.hydrosmart.soil.interfaces.rest.resources;
  * @param userId The id of the user owner of the crop
  * @param temperature The current temperature of the crop
  * @param humidity The current humidity of the crop
- * //@param waterTankWaterAmountRemaining The amount of water remaining in the water tank related to the crop
- * //@param waterTankMaxWaterCapacity The capacity of the water tank related to the crop
+ * //@param waterAmountRemaining The amount of water remaining in the water tank related to the crop
+ * //@param maxWaterCapacity The capacity of the water tank related to the crop
  * //@param automaticIrrigationStatus The status of the irrigation
  */
 public record CropLightResource(
@@ -17,8 +17,8 @@ public record CropLightResource(
         Float temperature,
         Float humidity
         /*
-        Float waterTankWaterAmountRemaining,
-        Float waterTankMaxWaterCapacity,
+        Float waterAmountRemaining,
+        Float maxWaterCapacity,
         String automaticIrrigationStatus
         */
 ) {

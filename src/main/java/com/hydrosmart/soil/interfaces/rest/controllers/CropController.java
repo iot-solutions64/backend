@@ -1,5 +1,6 @@
 package com.hydrosmart.soil.interfaces.rest.controllers;
 
+import com.hydrosmart.security.interfaces.acl.UserContextFacade;
 import com.hydrosmart.shared.constants.AppConstants;
 import com.hydrosmart.soil.domain.model.queries.GetAllCropsByUserIdQuery;
 import com.hydrosmart.soil.domain.model.queries.GetCropByIdQuery;
@@ -25,20 +26,25 @@ public class CropController {
     private final CropQueryService cropQueryService;
     private final TemperatureCommandService temperatureCommandService;
     private final HumidityCommandService humidityCommandService;
+    private final UserContextFacade userContextFacade;
     public CropController(
             CropCommandService cropCommandService,
             CropQueryService cropQueryService,
             TemperatureCommandService temperatureCommandService,
-            HumidityCommandService humidityCommandService
+            HumidityCommandService humidityCommandService,
+            UserContextFacade userContextFacade
     ){
         this.cropCommandService = cropCommandService;
         this.cropQueryService = cropQueryService;
         this.temperatureCommandService = temperatureCommandService;
         this.humidityCommandService = humidityCommandService;
+        this.userContextFacade = userContextFacade;
     }
 
     @PostMapping
     public ResponseEntity<CropReferenceResource> createCrop(@RequestBody CreateCropResource resource){
+        var user = userContextFacade.fetchUserById(resource.userId());
+        if(user == null) return ResponseEntity.notFound().build();
         var createTemperatureResource = new CreateTemperatureResource(0f, resource.temperatureMinThreshold(), resource.temperatureMaxThreshold());
         var createTemperatureCommand = CreateTemperatureCommandFromResourceAssembler.toCommandFromResource(createTemperatureResource);
         var newTemperature = temperatureCommandService.handle(createTemperatureCommand);

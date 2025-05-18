@@ -1,6 +1,6 @@
 package com.hydrosmart.irrigation.domain.model.valueobjects;
 
-public enum AutomaticIrrigationStatusList {
+public enum IrrigationStatusList {
     ENABLED,
     DISABLED,
 }

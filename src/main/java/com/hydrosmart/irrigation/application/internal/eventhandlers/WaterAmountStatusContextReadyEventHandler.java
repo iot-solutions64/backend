@@ -12,12 +12,12 @@ import com.hydrosmart.irrigation.domain.model.commands.SeedWaterTankWaterAmountS
 import com.hydrosmart.irrigation.domain.services.commandservices.WaterTankWaterAmountStatusCommandService;
 
 @Service
-public class WaterTankWaterAmountStatusContextReadyEventHandler {
+public class WaterAmountStatusContextReadyEventHandler {
     private final WaterTankWaterAmountStatusCommandService waterTankWaterAmountStatusCommandService;
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(WaterTankWaterAmountStatusContextReadyEventHandler.class);
+            .getLogger(WaterAmountStatusContextReadyEventHandler.class);
 
-    public WaterTankWaterAmountStatusContextReadyEventHandler(
+    public WaterAmountStatusContextReadyEventHandler(
             WaterTankWaterAmountStatusCommandService waterTankWaterAmountStatusCommandService) {
         this.waterTankWaterAmountStatusCommandService = waterTankWaterAmountStatusCommandService;
     }

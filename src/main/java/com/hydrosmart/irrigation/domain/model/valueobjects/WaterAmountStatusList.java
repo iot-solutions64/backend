@@ -1,6 +1,6 @@
 package com.hydrosmart.irrigation.domain.model.valueobjects;
 
-public enum WaterTankWaterAmountStatusList {
+public enum WaterAmountStatusList {
     EMPTY,
     INSUFFICIENT,
     NORMAL,

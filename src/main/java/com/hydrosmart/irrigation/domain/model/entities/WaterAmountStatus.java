@@ -1,6 +1,6 @@
 package com.hydrosmart.irrigation.domain.model.entities;
 
-import com.hydrosmart.irrigation.domain.model.valueobjects.WaterTankWaterAmountStatusList;
+import com.hydrosmart.irrigation.domain.model.valueobjects.WaterAmountStatusList;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,16 +11,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "water_tank_water_amount_status")
-public class WaterTankWaterAmountStatus {
+public class WaterAmountStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private WaterTankWaterAmountStatusList name;
+    private WaterAmountStatusList name;
 
-    public WaterTankWaterAmountStatus(WaterTankWaterAmountStatusList name) {
+    public WaterAmountStatus(WaterAmountStatusList name) {
         this.name = name;
     }
 
