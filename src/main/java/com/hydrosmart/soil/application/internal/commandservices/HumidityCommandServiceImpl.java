@@ -6,7 +6,6 @@ import com.hydrosmart.soil.domain.model.commands.UpdateHumidityCommand;
 import com.hydrosmart.soil.domain.model.entities.Humidity;
 import com.hydrosmart.soil.domain.model.entities.HumidityStatus;
 import com.hydrosmart.soil.domain.model.valueobjects.HumidityStatusList;
-import com.hydrosmart.soil.domain.model.valueobjects.TemperatureStatusList;
 import com.hydrosmart.soil.domain.services.commandservices.HumidityCommandService;
 import com.hydrosmart.soil.infrastructure.persistence.jpa.repositories.HumidityRepository;
 import com.hydrosmart.soil.infrastructure.persistence.jpa.repositories.HumidityStatusRepository;
