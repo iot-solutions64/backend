@@ -8,18 +8,18 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import com.hydrosmart.irrigation.domain.model.commands.SeedAutomaticIrrigationStatusCommand;
-import com.hydrosmart.irrigation.domain.services.commandservices.AutomaticIrrigationStatusCommandService;
+import com.hydrosmart.irrigation.domain.model.commands.SeedIrrigationStatusCommand;
+import com.hydrosmart.irrigation.domain.services.commandservices.IrrigationStatusCommandService;
 
 @Service
-public class AutomaticIrrigationStatusContextReadyEventHandler {
-    private final AutomaticIrrigationStatusCommandService automaticIrrigationStatusCommandService;
+public class IrrigationStatusContextReadyEventHandler {
+    private final IrrigationStatusCommandService irrigationStatusCommandService;
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(AutomaticIrrigationStatusContextReadyEventHandler.class);
+            .getLogger(IrrigationStatusContextReadyEventHandler.class);
 
-    public AutomaticIrrigationStatusContextReadyEventHandler(
-            AutomaticIrrigationStatusCommandService automaticIrrigationStatusCommandService) {
-        this.automaticIrrigationStatusCommandService = automaticIrrigationStatusCommandService;
+    public IrrigationStatusContextReadyEventHandler(
+            IrrigationStatusCommandService irrigationStatusCommandService) {
+        this.irrigationStatusCommandService = irrigationStatusCommandService;
     }
 
     @EventListener
@@ -27,8 +27,8 @@ public class AutomaticIrrigationStatusContextReadyEventHandler {
         var applicationName = event.getApplicationContext().getId();
         LOGGER.info("Starting to verify id the automatic irrigation status seeding is needed for {} at {}",
                 applicationName, currentTimestamp());
-        var seedAutomaticIrrigationStatusCommand = new SeedAutomaticIrrigationStatusCommand();
-        automaticIrrigationStatusCommandService.handle(seedAutomaticIrrigationStatusCommand);
+        var seedAutomaticIrrigationStatusCommand = new SeedIrrigationStatusCommand();
+        irrigationStatusCommandService.handle(seedAutomaticIrrigationStatusCommand);
         LOGGER.info("Automatic Irrigation Status seeding verification finished for {} at {}", applicationName,
                 currentTimestamp());
     }

@@ -26,14 +26,14 @@ public record CropDetailedResource(
         Float humidityMaxThreshold,
         String humidityStatus
         /*
-        Float waterTankWaterAmountRemaining,
-        Float waterTankMaxWaterCapacity,
+        Float waterAmountRemaining,
+        Float maxWaterCapacity,
         String waterTankWaterAmountStatus,
         String waterTankStatus,
         String waterTankWaterQuality,
         String automaticIrrigationStatus,
-        Float automaticIrrigationMaxWaterUsage,
-        Float automaticIrrigationDefaultMaxWaterUsage,
+        Float maxWaterUsage,
+        Float defaultWaterUsage,
         List<LocalDateTime[]> automaticIrrigationOperationHours,
         String automaticIrrigationSuggestedActions
         */
