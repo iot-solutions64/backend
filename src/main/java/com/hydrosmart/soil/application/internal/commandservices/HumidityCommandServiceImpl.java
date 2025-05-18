@@ -34,10 +34,10 @@ public class HumidityCommandServiceImpl implements HumidityCommandService {
 
     private HumidityStatus validateHumidityStatus(Float humidity, Float min, Float max){
         if(humidity >= min && humidity <= max) return findStatus(HumidityStatusList.FAVORABLE);
-        if(humidity > max && humidity < max + 5) return findStatus(HumidityStatusList.SLIGHTLY_UNFAVORABLE_OVER);
-        if(humidity < min && humidity > min - 5) return findStatus(HumidityStatusList.SLIGHTLY_UNFAVORABLE_UNDER);
-        if(humidity > max + 5 && humidity < max - 10) return findStatus(HumidityStatusList.UNFAVORABLE_OVER);
-        if(humidity < min + 5 && humidity > min - 10) return findStatus(HumidityStatusList.UNFAVORABLE_UNDER);
+        if(humidity > max && humidity <= max + 5) return findStatus(HumidityStatusList.SLIGHTLY_UNFAVORABLE_OVER);
+        if(humidity < min && humidity >= min - 5) return findStatus(HumidityStatusList.SLIGHTLY_UNFAVORABLE_UNDER);
+        if(humidity > max + 5 && humidity <= max + 10) return findStatus(HumidityStatusList.UNFAVORABLE_OVER);
+        if(humidity < min - 5 && humidity >= min - 10) return findStatus(HumidityStatusList.UNFAVORABLE_UNDER);
         if(humidity > max + 10) return findStatus(HumidityStatusList.FLOODED);
         return findStatus(HumidityStatusList.DRY);
     }
