@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "water_tank_status")
 public class WaterTankStatus {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
