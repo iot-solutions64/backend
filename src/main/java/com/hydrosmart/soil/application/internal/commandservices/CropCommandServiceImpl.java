@@ -42,4 +42,9 @@ public class CropCommandServiceImpl implements CropCommandService {
             throw new IllegalArgumentException("Error while creating a new crop: " + e.getMessage());
         }
     }
+
+    @Override
+    public void deleteById(Long cropId) {
+        cropRepository.deleteById(cropId);
+    }
 }
