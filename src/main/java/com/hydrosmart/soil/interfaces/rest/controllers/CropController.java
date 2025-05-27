@@ -44,25 +44,30 @@ public class CropController {
     }
 
     @PostMapping
-    public ResponseEntity<CropReferenceResource> createCrop(@RequestBody CreateCropResource resource){
+    public ResponseEntity<String> createCrop(@RequestBody CreateCropResource resource) {
         var user = userContextFacade.fetchUserById(resource.userId());
-        if(user == null) throw new UserNotFoundException();
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
         var createTemperatureResource = new CreateTemperatureResource(0f, resource.temperatureMinThreshold(), resource.temperatureMaxThreshold());
         var createTemperatureCommand = CreateTemperatureCommandFromResourceAssembler.toCommandFromResource(createTemperatureResource);
         var newTemperature = temperatureCommandService.handle(createTemperatureCommand);
-        if(newTemperature.isEmpty()) return ResponseEntity.badRequest().build();
+        if (newTemperature.isEmpty()) return ResponseEntity.badRequest().body("Failed to create temperature");
 
         var createHumidityResource = new CreateHumidityResource(0f, resource.humidityMinThreshold(), resource.humidityMaxThreshold());
         var createHumidityCommand = CreateHumidityCommandFromResourceAssembler.toCommandFromResource(createHumidityResource);
         var newHumidity = humidityCommandService.handle(createHumidityCommand);
-        if(newHumidity.isEmpty()) return ResponseEntity.badRequest().build();
+        if (newHumidity.isEmpty()) return ResponseEntity.badRequest().body("Failed to create humidity");
 
         var createCropCommand = CreateCropCommandFromResourceAssembler.toCommandFromResource(resource, newTemperature.get().getId(), newHumidity.get().getId());
         var newCrop = cropCommandService.handle(createCropCommand);
-        if(newCrop.isEmpty()) return ResponseEntity.badRequest().build();
-        return newCrop.map(value -> ResponseEntity.ok(CropReferenceResourceFromEntityAssembler.toResourceFromEntity(value)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        if (newCrop.isEmpty()) return ResponseEntity.badRequest().body("Failed to create crop");
+
+        var createdCrop = newCrop.get();
+        String message = "Crop with ID " + createdCrop.getId() + " created";
+        return ResponseEntity.ok(message);
     }
+
 
     @GetMapping("/{cropId}/reference")
     public ResponseEntity<CropReferenceResource> getCropById(@PathVariable Long cropId){
