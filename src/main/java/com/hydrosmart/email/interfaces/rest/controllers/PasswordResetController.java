@@ -2,6 +2,7 @@ package com.hydrosmart.email.interfaces.rest.controllers;
 
 import com.hydrosmart.email.domain.model.entities.PasswordResetToken;
 import com.hydrosmart.email.domain.model.services.EmailService;
+import com.hydrosmart.security.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,28 +15,31 @@ import java.util.UUID;
 public class PasswordResetController {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private EmailService emailService;
 
     @PostMapping("/request")
-    public String requestPasswordReset(@RequestParam String email) {
-        // Append @gmail.com if the email does not contain @
-        if (!email.contains("@")) {
-            email = email + "@gmail.com";
+    public String requestPasswordReset(@RequestParam String username) {
+        // Check if the username exists in the database
+        if (!userRepository.existsByUsername(username)) {
+            return "Error: Username not registered in the application.";
         }
 
         // Generate a unique token
         String token = UUID.randomUUID().toString();
 
-        // Save the token in the database (simulated here)
+        // Create and save the token
         PasswordResetToken resetToken = new PasswordResetToken();
         resetToken.setToken(token);
-        resetToken.setEmail(email);
+        resetToken.setEmail(username); // Use the username as the email
         resetToken.setConfirmed(false);
         resetToken.setExpirationDate(LocalDateTime.now().plusHours(1));
-        // Save the token in your repository here
+
 
         // Send the email
-        emailService.sendPasswordResetEmail(email, token);
+        emailService.sendPasswordResetEmail(username, token);
 
         return "Password reset email sent!";
     }
