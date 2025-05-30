@@ -25,7 +25,9 @@ public class IrrigationCommandServiceImpl implements IrrigationCommandService {
 
     @Override
     public Optional<Irrigation> handle(CreateIrrigationCommand command, IrrigationFrequency frequency) {
-        var status = irrigationStatusRepository.findByName(IrrigationStatusList.DISABLED).orElseThrow(() -> new RuntimeException("Status not found"));
+        var status = irrigationStatusRepository
+                .findByName(IrrigationStatusList.DISABLED)
+                .orElseThrow(() -> new RuntimeException("Irrigation not found"));
         Irrigation irrigation = new Irrigation(command, status, frequency);
         irrigationRepository.save(irrigation);
         return Optional.of(irrigation);
@@ -33,7 +35,9 @@ public class IrrigationCommandServiceImpl implements IrrigationCommandService {
 
     @Override
     public Optional<Irrigation> handle(UpdateIrrigationCommand command, IrrigationStatus status, IrrigationFrequency frequency) {
-        var foundIrrigation = irrigationRepository.findById(command.id()).orElseThrow(() -> new RuntimeException("Irrigation not found"));
+        var foundIrrigation = irrigationRepository
+                .findById(command.id())
+                .orElseThrow(() -> new RuntimeException("Irrigation not found"));
         var updatedIrrigation = irrigationRepository.save(foundIrrigation.updateIrrigation(command,status, frequency));
         return Optional.of(updatedIrrigation);
     }

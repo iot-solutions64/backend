@@ -1,7 +1,9 @@
 package com.hydrosmart.irrigation.domain.model.entities;
 
+import com.hydrosmart.irrigation.domain.model.commands.CreateIrrigationFrequencyCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,9 +13,8 @@ import java.time.LocalTime;
  * <p>Defines the frequency of the automatic irrigation</p>
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "schedule_type")
 @Getter
+@NoArgsConstructor
 public class IrrigationFrequency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +26,18 @@ public class IrrigationFrequency {
 
     private LocalTime startTime;
 
-    private LocalTime allowedStartTime;
+    private LocalTime disallowedStartTime;
 
-    private LocalTime allowedEndTime;
+    private LocalTime disallowedEndTime;
 
     private int duration;
+
+    public IrrigationFrequency(CreateIrrigationFrequencyCommand command){
+        this.hourFrequency = command.hourFrequency();
+        this.startDate = command.startDate();
+        this.startTime = command.startTime();
+        this.disallowedStartTime = command.disallowedStartTime();
+        this.disallowedEndTime = command.disallowedEndTime();
+        this.duration = command.duration();
+    }
 }
