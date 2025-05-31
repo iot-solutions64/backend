@@ -9,6 +9,7 @@ import com.hydrosmart.irrigation.domain.services.commandservices.WaterTankComman
 import com.hydrosmart.irrigation.infrastructure.persistence.jpa.repositories.WaterTankRepository;
 import com.hydrosmart.irrigation.infrastructure.persistence.jpa.repositories.WaterTankStatusRepository;
 import com.hydrosmart.irrigation.infrastructure.persistence.jpa.repositories.WaterAmountStatusRepository;
+import com.hydrosmart.security.interfaces.acl.UserContextFacade;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,15 +20,17 @@ public class WaterTankCommandServiceImpl implements WaterTankCommandService {
     private final WaterTankRepository waterTankRepository;
     private final WaterTankStatusRepository waterTankStatusRepository;
     private final WaterAmountStatusRepository waterAmountStatusRepository;
+    private final UserContextFacade userContextFacade;
 
     public WaterTankCommandServiceImpl(
             WaterTankRepository waterTankRepository,
             WaterTankStatusRepository waterTankStatusRepository,
-            WaterAmountStatusRepository waterAmountStatusRepository
+            WaterAmountStatusRepository waterAmountStatusRepository, UserContextFacade userContextFacade
     ) {
         this.waterTankRepository = waterTankRepository;
         this.waterTankStatusRepository = waterTankStatusRepository;
         this.waterAmountStatusRepository = waterAmountStatusRepository;
+        this.userContextFacade = userContextFacade;
     }
 
 
@@ -35,7 +38,8 @@ public class WaterTankCommandServiceImpl implements WaterTankCommandService {
     public Optional<WaterTank> handle(CreateWaterTankCommand command) {
         var waterAmountStatus = waterAmountStatusRepository.findByName(WaterAmountStatusList.NORMAL).orElseThrow(() -> new RuntimeException("Water Amount Status not found"));
         var waterTankStatus = waterTankStatusRepository.findByName(WaterTankStatusList.DEACTIVATED).orElseThrow(() -> new RuntimeException("Water Tank Status not found"));
-        WaterTank waterTank = new WaterTank(command,waterAmountStatus,waterTankStatus);
+        var user = userContextFacade.fetchUserById(command.userId());
+        WaterTank waterTank = new WaterTank(command,waterAmountStatus,waterTankStatus, user);
         return Optional.of(waterTankRepository.save(waterTank));
     }
 

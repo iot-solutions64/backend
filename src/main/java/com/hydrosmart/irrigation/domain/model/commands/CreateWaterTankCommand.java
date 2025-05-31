@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CreateWaterTankCommand(
         @NotBlank Float waterAmountRemaining,
-        @NotBlank Float maxWaterCapacity
+        @NotBlank Float maxWaterCapacity,
+        @NotBlank Long userId
 ) {
 }

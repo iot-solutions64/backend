@@ -3,6 +3,7 @@ package com.hydrosmart.irrigation.application.internal.queryservices;
 import java.util.List;
 import java.util.Optional;
 
+import com.hydrosmart.irrigation.domain.model.queries.GetWaterTanksByUserId;
 import org.springframework.stereotype.Service;
 
 import com.hydrosmart.irrigation.domain.model.aggregates.WaterTank;
@@ -21,5 +22,10 @@ public class WaterTankQueryServiceImpl implements WaterTankQueryService {
     @Override
     public Optional<WaterTank> handle(GetWaterTankByIdQuery query) {
         return waterTankRepository.findById(query.waterTankId());
+    }
+
+    @Override
+    public List<WaterTank> handle(GetWaterTanksByUserId query) {
+        return waterTankRepository.getWaterTanksByUserId(query.userId());
     }
 }

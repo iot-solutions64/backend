@@ -5,6 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.hydrosmart.irrigation.domain.model.aggregates.WaterTank;
 
+import java.util.List;
+
 @Repository
 public interface WaterTankRepository extends JpaRepository<WaterTank, Long> {
+    List<WaterTank> getWaterTanksByUserId(Long userId);
 }

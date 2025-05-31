@@ -4,6 +4,7 @@ import com.hydrosmart.irrigation.domain.model.commands.UpdateWaterTankCommand;
 import com.hydrosmart.irrigation.domain.model.entities.WaterAmountStatus;
 import com.hydrosmart.irrigation.domain.model.commands.CreateWaterTankCommand;
 import com.hydrosmart.irrigation.domain.model.entities.WaterTankStatus;
+import com.hydrosmart.security.domain.model.aggregates.User;
 import com.hydrosmart.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -37,17 +38,21 @@ public class WaterTank extends AuditableAbstractAggregateRoot<WaterTank> {
     @JoinColumn(name = "status_id", nullable = false)
     private WaterTankStatus status;
 
-    @NotNull
-    private String waterQuality;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public WaterTank(
             CreateWaterTankCommand command,
             WaterAmountStatus waterAmountStatus,
-            WaterTankStatus status) {
+            WaterTankStatus status,
+            User user
+    ) {
         this.waterAmountRemaining = command.waterAmountRemaining();
         this.maxWaterCapacity = command.maxWaterCapacity();
         this.waterAmountStatus = waterAmountStatus;
         this.status = status;
+        this.user = user;
     }
 
     public WaterTank updateWaterTank(
