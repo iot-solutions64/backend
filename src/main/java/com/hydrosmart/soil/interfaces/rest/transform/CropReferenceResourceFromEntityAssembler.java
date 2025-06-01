@@ -7,10 +7,11 @@ public class CropReferenceResourceFromEntityAssembler {
     public static CropReferenceResource toResourceFromEntity(Crop entity){
         return new CropReferenceResource(
                 entity.getId(),
-                entity.getName(),
                 entity.getUser().getId(),
                 entity.getTemperature().getId(),
-                entity.getHumidity().getId()
+                entity.getHumidity().getId(),
+                entity.getWaterTank().getId(),
+                entity.getName()
         );
     }
 }

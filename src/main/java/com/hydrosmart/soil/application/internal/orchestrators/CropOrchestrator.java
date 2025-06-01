@@ -54,14 +54,14 @@ public class CropOrchestrator {
 
         var createIrrigationFrequencyCommand = new CreateIrrigationFrequencyCommand(
                 resource.hourFrequency(),
-                resource.startDate(),
-                resource.startTime(),
-                resource.disallowedStartTime(),
-                resource.disallowedEndTime(),
-                resource.duration()
+                resource.irrigationStartDate(),
+                resource.irrigationStartTime(),
+                resource.irrigationDisallowedStartTime(),
+                resource.irrigationDisallowedEndTime(),
+                resource.irrigationDurationInMinutes()
         );
         var irrigationId = irrigationContextFacade.createIrrigation(
-                new IrrigationFrequency(createIrrigationFrequencyCommand), resource.maxWaterUsage()
+                new IrrigationFrequency(createIrrigationFrequencyCommand), resource.irrigationMaxWaterUsage()
         );
         if(irrigationId == 0L) throw new RuntimeException("Could not create irrigation");
 

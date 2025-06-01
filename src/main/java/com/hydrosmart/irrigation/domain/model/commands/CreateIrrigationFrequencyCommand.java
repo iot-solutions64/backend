@@ -9,6 +9,6 @@ public record CreateIrrigationFrequencyCommand(
         LocalTime startTime,
         LocalTime disallowedStartTime,
         LocalTime disallowedEndTime,
-        int duration
+        int durationInMinutes
 ) {
 }

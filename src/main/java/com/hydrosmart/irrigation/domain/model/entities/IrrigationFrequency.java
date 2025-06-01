@@ -30,7 +30,7 @@ public class IrrigationFrequency {
 
     private LocalTime disallowedEndTime;
 
-    private int duration;
+    private int durationInMinutes;
 
     public IrrigationFrequency(CreateIrrigationFrequencyCommand command){
         this.hourFrequency = command.hourFrequency();
@@ -38,6 +38,6 @@ public class IrrigationFrequency {
         this.startTime = command.startTime();
         this.disallowedStartTime = command.disallowedStartTime();
         this.disallowedEndTime = command.disallowedEndTime();
-        this.duration = command.duration();
+        this.durationInMinutes = command.durationInMinutes();
     }
 }
