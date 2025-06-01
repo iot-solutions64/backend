@@ -27,4 +27,7 @@ public class IrrigationStatus {
     public String getAutomaticIrrigationStatusName(){
         return name.name();
     }
+    public static IrrigationStatus toStatusFromName(String name){
+        return new IrrigationStatus(IrrigationStatusList.valueOf(name));
+    }
 }

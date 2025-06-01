@@ -1,6 +1,7 @@
 package com.hydrosmart.soil.application.internal.queryservices;
 
 import com.hydrosmart.soil.domain.model.aggregates.Crop;
+import com.hydrosmart.soil.domain.model.queries.GetAllCropsByWaterTankIdQuery;
 import com.hydrosmart.soil.domain.model.queries.GetCropByIdQuery;
 import com.hydrosmart.soil.domain.model.queries.GetAllCropsByUserIdQuery;
 import com.hydrosmart.soil.domain.services.queryservices.CropQueryService;
@@ -25,6 +26,11 @@ public class CropQueryServiceImpl implements CropQueryService {
 
     @Override
     public List<Crop> handle(GetAllCropsByUserIdQuery query) {
-        return cropRepository.findByUserId(query.userId());
+        return cropRepository.findAllByUserId(query.userId());
+    }
+
+    @Override
+    public List<Crop> handle(GetAllCropsByWaterTankIdQuery query) {
+        return cropRepository.findAllByWaterTankId(query.waterTankId());
     }
 }

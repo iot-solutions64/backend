@@ -56,13 +56,13 @@ public class CropQueryServiceTests {
     public void testGetAllCropsByUserIdQuerySuccess() {
         Long userId = 1L;
         List<Crop> mockCrops = List.of(new Crop(), new Crop());
-        when(cropRepository.findByUserId(userId)).thenReturn(mockCrops);
+        when(cropRepository.findAllByUserId(userId)).thenReturn(mockCrops);
 
         var query = new GetAllCropsByUserIdQuery(userId);
         List<Crop> result = cropQueryService.handle(query);
 
         assertEquals(2, result.size());
-        verify(cropRepository, times(1)).findByUserId(userId);
+        verify(cropRepository, times(1)).findAllByUserId(userId);
     }
 
     @Test
