@@ -1,12 +1,18 @@
 package com.hydrosmart.irrigation.interfaces.rest.controllers;
 
+import com.hydrosmart.irrigation.domain.model.commands.PatchWaterTankStatusCommand;
 import com.hydrosmart.irrigation.domain.model.queries.GetWaterTankByIdQuery;
 import com.hydrosmart.irrigation.domain.model.queries.GetWaterTanksByUserId;
+import com.hydrosmart.irrigation.domain.model.valueobjects.WaterTankStatusList;
 import com.hydrosmart.irrigation.domain.services.commandservices.WaterTankCommandService;
 import com.hydrosmart.irrigation.domain.services.queryservices.WaterTankQueryService;
 import com.hydrosmart.irrigation.interfaces.rest.resources.CreateWaterTankResource;
+import com.hydrosmart.irrigation.interfaces.rest.resources.PatchWaterTankNameResource;
+import com.hydrosmart.irrigation.interfaces.rest.resources.PatchWaterTankWaterAmountRemainingResource;
 import com.hydrosmart.irrigation.interfaces.rest.resources.WaterTankResource;
 import com.hydrosmart.irrigation.interfaces.rest.transform.CreateWaterTankCommandFromResourceAssembler;
+import com.hydrosmart.irrigation.interfaces.rest.transform.PatchWaterTankNameCommandFromResourceAssembler;
+import com.hydrosmart.irrigation.interfaces.rest.transform.PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler;
 import com.hydrosmart.irrigation.interfaces.rest.transform.WaterTankResourceFromEntityAssembler;
 import com.hydrosmart.shared.constants.AppConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +35,7 @@ public class WaterTankController {
     }
 
     @PostMapping
-    public ResponseEntity<WaterTankResource> createWaterTank(CreateWaterTankResource resource){
+    public ResponseEntity<WaterTankResource> createWaterTank(@RequestBody CreateWaterTankResource resource){
         var createWaterTankCommand = CreateWaterTankCommandFromResourceAssembler.toCommandFromResource(resource);
         var waterTank = waterTankCommandService.handle(createWaterTankCommand);
         if(waterTank.isEmpty()) return ResponseEntity.badRequest().build();
@@ -56,5 +62,33 @@ public class WaterTankController {
                 .map(WaterTankResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
         return ResponseEntity.ok(waterTankListResource);
+    }
+
+    @PatchMapping("/{id}/status/{status}")
+    public ResponseEntity<WaterTankResource> updateStatus(@PathVariable Long id, @PathVariable WaterTankStatusList status){
+        //Since the status is an enum, it is not necessary to use an assembler class. Instead, create the class here
+        var patchWaterTankStatusCommand = new PatchWaterTankStatusCommand(id,status);
+        var waterTank = waterTankCommandService.handle(patchWaterTankStatusCommand);
+        if(waterTank.isEmpty()) return ResponseEntity.badRequest().build();
+        var waterTankResource = WaterTankResourceFromEntityAssembler.toResourceFromEntity(waterTank.get());
+        return ResponseEntity.ok(waterTankResource);
+    }
+
+    @PatchMapping("/{id}/name")
+    public ResponseEntity<WaterTankResource> updateName(@RequestBody PatchWaterTankNameResource resource){
+        var patchWaterTankNameCommand = PatchWaterTankNameCommandFromResourceAssembler.toCommandFromResource(resource);
+        var waterTank = waterTankCommandService.handle(patchWaterTankNameCommand);
+        if(waterTank.isEmpty()) return ResponseEntity.badRequest().build();
+        var waterTankResource = WaterTankResourceFromEntityAssembler.toResourceFromEntity(waterTank.get());
+        return ResponseEntity.ok(waterTankResource);
+    }
+
+    @PatchMapping("/{id}/water-remaining")
+    public ResponseEntity<WaterTankResource> updateWaterRemaining(@RequestBody PatchWaterTankWaterAmountRemainingResource resource){
+        var patchWaterTankWaterAmountRemainingCommand = PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler.toCommandFromResource(resource);
+        var waterTank = waterTankCommandService.handle(patchWaterTankWaterAmountRemainingCommand);
+        if(waterTank.isEmpty()) return ResponseEntity.badRequest().build();
+        var waterTankResource = WaterTankResourceFromEntityAssembler.toResourceFromEntity(waterTank.get());
+        return ResponseEntity.ok(waterTankResource);
     }
 }

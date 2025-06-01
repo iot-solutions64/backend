@@ -7,9 +7,9 @@ public class WaterTankResourceFromEntityAssembler {
     public static WaterTankResource toResourceFromEntity(WaterTank entity) {
         return new WaterTankResource(
                 entity.getId(),
+                entity.getName(),
                 entity.getWaterAmountRemaining(),
                 entity.getMaxWaterCapacity(),
-                entity.getWaterAmountStatus().getWaterTankAmountStatusName(),
                 entity.getStatus().getWaterTankStatusName()
         );
     }

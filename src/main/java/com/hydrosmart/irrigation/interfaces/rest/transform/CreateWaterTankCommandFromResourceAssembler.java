@@ -6,6 +6,7 @@ import com.hydrosmart.irrigation.interfaces.rest.resources.CreateWaterTankResour
 public class CreateWaterTankCommandFromResourceAssembler {
     public static CreateWaterTankCommand toCommandFromResource(CreateWaterTankResource resource){
         return new CreateWaterTankCommand(
+                resource.name(),
                 resource.maxWaterCapacity(),
                 resource.maxWaterCapacity(),
                 resource.userId()
