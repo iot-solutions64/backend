@@ -1,5 +1,6 @@
 package com.hydrosmart.irrigation.interfaces.rest.controllers;
 
+import com.hydrosmart.irrigation.domain.model.commands.DeleteWaterTankCommand;
 import com.hydrosmart.irrigation.domain.model.commands.PatchWaterTankStatusCommand;
 import com.hydrosmart.irrigation.domain.model.queries.GetWaterTankByIdQuery;
 import com.hydrosmart.irrigation.domain.model.queries.GetWaterTanksByUserId;
@@ -90,5 +91,12 @@ public class WaterTankController {
         if(waterTank.isEmpty()) return ResponseEntity.badRequest().build();
         var waterTankResource = WaterTankResourceFromEntityAssembler.toResourceFromEntity(waterTank.get());
         return ResponseEntity.ok(waterTankResource);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteWaterTank(@PathVariable Long id){
+        var deleteWaterTankCommand = new DeleteWaterTankCommand(id);
+        waterTankCommandService.handle(deleteWaterTankCommand);
+        return ResponseEntity.ok("Water Tank deleted successfully");
     }
 }
