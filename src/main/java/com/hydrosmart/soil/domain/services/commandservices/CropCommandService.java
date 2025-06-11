@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface CropCommandService {
     Optional<Crop> handle(CreateCropCommand command);
+
+    void deleteById(Long cropId);
+
 }

@@ -1,12 +1,10 @@
 package com.hydrosmart.irrigation.application.internal.queryservices;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.hydrosmart.irrigation.domain.model.agregates.Irrigation;
-import com.hydrosmart.irrigation.domain.model.queries.GetAllIrrigationsQuery;
+import com.hydrosmart.irrigation.domain.model.aggregates.Irrigation;
 import com.hydrosmart.irrigation.domain.model.queries.GetIrrigationByIdQuery;
 import com.hydrosmart.irrigation.domain.services.queryservices.IrrigationQueryService;
 import com.hydrosmart.irrigation.infrastructure.persistence.jpa.repositories.IrrigationRepository;
@@ -23,10 +21,4 @@ public class IrrigationQueryServiceImpl implements IrrigationQueryService {
     public Optional<Irrigation> handle(GetIrrigationByIdQuery query) {
         return irrigationRepository.findById(query.irrigationId());
     }
-
-    @Override
-    public Optional<List<Irrigation>> handle(GetAllIrrigationsQuery query) {
-        return Optional.of(irrigationRepository.findAll());
-    }
-
 }

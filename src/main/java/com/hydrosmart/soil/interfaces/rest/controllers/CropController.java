@@ -1,10 +1,9 @@
 package com.hydrosmart.soil.interfaces.rest.controllers;
 
 import com.hydrosmart.shared.constants.AppConstants;
+import com.hydrosmart.soil.application.internal.orchestrators.CropOrchestrator;
 import com.hydrosmart.soil.domain.model.queries.GetAllCropsByUserIdQuery;
 import com.hydrosmart.soil.domain.model.queries.GetCropByIdQuery;
-import com.hydrosmart.soil.domain.model.valueobjects.HumidityStatusList;
-import com.hydrosmart.soil.domain.model.valueobjects.TemperatureStatusList;
 import com.hydrosmart.soil.domain.services.commandservices.CropCommandService;
 import com.hydrosmart.soil.domain.services.commandservices.HumidityCommandService;
 import com.hydrosmart.soil.domain.services.commandservices.TemperatureCommandService;
@@ -25,35 +24,28 @@ public class CropController {
     private final CropQueryService cropQueryService;
     private final TemperatureCommandService temperatureCommandService;
     private final HumidityCommandService humidityCommandService;
+    private final CropOrchestrator cropOrchestrator;
+
     public CropController(
             CropCommandService cropCommandService,
             CropQueryService cropQueryService,
             TemperatureCommandService temperatureCommandService,
-            HumidityCommandService humidityCommandService
+            HumidityCommandService humidityCommandService,
+            CropOrchestrator cropOrchestrator
     ){
         this.cropCommandService = cropCommandService;
         this.cropQueryService = cropQueryService;
         this.temperatureCommandService = temperatureCommandService;
         this.humidityCommandService = humidityCommandService;
+        this.cropOrchestrator = cropOrchestrator;
     }
 
     @PostMapping
     public ResponseEntity<CropReferenceResource> createCrop(@RequestBody CreateCropResource resource){
-        var createTemperatureResource = new CreateTemperatureResource(0f, resource.temperatureMinThreshold(), resource.temperatureMaxThreshold());
-        var createTemperatureCommand = CreateTemperatureCommandFromResourceAssembler.toCommandFromResource(createTemperatureResource);
-        var newTemperature = temperatureCommandService.handle(createTemperatureCommand);
-        if(newTemperature.isEmpty()) return ResponseEntity.badRequest().build();
-
-        var createHumidityResource = new CreateHumidityResource(0f, resource.humidityMinThreshold(), resource.humidityMaxThreshold());
-        var createHumidityCommand = CreateHumidityCommandFromResourceAssembler.toCommandFromResource(createHumidityResource);
-        var newHumidity = humidityCommandService.handle(createHumidityCommand);
-        if(newHumidity.isEmpty()) return ResponseEntity.badRequest().build();
-
-        var createCropCommand = CreateCropCommandFromResourceAssembler.toCommandFromResource(resource, newTemperature.get().getId(), newHumidity.get().getId());
-        var newCrop = cropCommandService.handle(createCropCommand);
-        if(newCrop.isEmpty()) return ResponseEntity.badRequest().build();
-        return newCrop.map(value -> ResponseEntity.ok(CropReferenceResourceFromEntityAssembler.toResourceFromEntity(value)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        var crop = cropOrchestrator.handle(resource);
+        return crop
+                .map(value -> ResponseEntity.ok(CropReferenceResourceFromEntityAssembler.toResourceFromEntity(value)))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @GetMapping("/{cropId}/reference")
@@ -138,4 +130,12 @@ public class CropController {
         humidityCommandService.handle(patchHumidityCommand);
         return ResponseEntity.ok("Humidity updated");
     }
+
+    @DeleteMapping("/{cropId}")
+    public ResponseEntity<String> deleteCrop(@PathVariable Long cropId) {
+        cropCommandService.deleteById(cropId);
+        String message = "Crop " + cropId + " deleted";
+        return ResponseEntity.ok(message);
+    }
+
 }

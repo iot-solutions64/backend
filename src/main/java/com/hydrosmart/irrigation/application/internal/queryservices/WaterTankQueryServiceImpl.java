@@ -3,19 +3,19 @@ package com.hydrosmart.irrigation.application.internal.queryservices;
 import java.util.List;
 import java.util.Optional;
 
+import com.hydrosmart.irrigation.domain.model.queries.GetWaterTanksByUserId;
 import org.springframework.stereotype.Service;
 
-import com.hydrosmart.irrigation.domain.model.agregates.WaterTank;
-import com.hydrosmart.irrigation.domain.model.queries.GetAllWaterTanksQuery;
+import com.hydrosmart.irrigation.domain.model.aggregates.WaterTank;
 import com.hydrosmart.irrigation.domain.model.queries.GetWaterTankByIdQuery;
 import com.hydrosmart.irrigation.domain.services.queryservices.WaterTankQueryService;
-import com.hydrosmart.irrigation.infrastructure.persistence.jpa.repositories.WaterTankRespository;
+import com.hydrosmart.irrigation.infrastructure.persistence.jpa.repositories.WaterTankRepository;
 
 @Service
 public class WaterTankQueryServiceImpl implements WaterTankQueryService {
-    private final WaterTankRespository waterTankRepository;
+    private final WaterTankRepository waterTankRepository;
 
-    public WaterTankQueryServiceImpl(WaterTankRespository waterTankRepository) {
+    public WaterTankQueryServiceImpl(WaterTankRepository waterTankRepository) {
         this.waterTankRepository = waterTankRepository;
     }
 
@@ -25,7 +25,7 @@ public class WaterTankQueryServiceImpl implements WaterTankQueryService {
     }
 
     @Override
-    public Optional<List<WaterTank>> handle(GetAllWaterTanksQuery query) {
-        return Optional.of(waterTankRepository.findAll());
+    public List<WaterTank> handle(GetWaterTanksByUserId query) {
+        return waterTankRepository.getWaterTanksByUserId(query.userId());
     }
 }
