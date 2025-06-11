@@ -75,7 +75,7 @@ public class WaterTankController {
         return ResponseEntity.ok(waterTankResource);
     }
 
-    @PatchMapping("/{id}/name")
+    @PatchMapping("/name")
     public ResponseEntity<WaterTankResource> updateName(@RequestBody PatchWaterTankNameResource resource){
         var patchWaterTankNameCommand = PatchWaterTankNameCommandFromResourceAssembler.toCommandFromResource(resource);
         var waterTank = waterTankCommandService.handle(patchWaterTankNameCommand);
@@ -84,7 +84,7 @@ public class WaterTankController {
         return ResponseEntity.ok(waterTankResource);
     }
 
-    @PatchMapping("/{id}/water-remaining")
+    @PatchMapping("/water-remaining")
     public ResponseEntity<WaterTankResource> updateWaterRemaining(@RequestBody PatchWaterTankWaterAmountRemainingResource resource){
         var patchWaterTankWaterAmountRemainingCommand = PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler.toCommandFromResource(resource);
         var waterTank = waterTankCommandService.handle(patchWaterTankWaterAmountRemainingCommand);
