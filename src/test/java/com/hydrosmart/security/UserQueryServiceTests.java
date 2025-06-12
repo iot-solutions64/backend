@@ -7,10 +7,11 @@ import com.hydrosmart.security.domain.model.queries.GetUserByIdQuery;
 import com.hydrosmart.security.domain.model.queries.GetUserByUsernameQuery;
 import com.hydrosmart.security.domain.services.queryservices.UserQueryService;
 import com.hydrosmart.security.infrastructure.persistence.jpa.repositories.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,14 +22,10 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class UserQueryServiceTests {
+    @MockBean
     private UserRepository userRepository;
-    private UserQueryService userQueryService;
-
-    @BeforeEach
-    public void setUp() {
-        userRepository = Mockito.mock(UserRepository.class);
-        userQueryService = new UserQueryServiceImpl(userRepository);
-    }
+    @Autowired
+    private UserQueryServiceImpl userQueryService;
 
     @Test
     public void testFindAllUsers() {
