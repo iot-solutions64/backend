@@ -4,9 +4,9 @@ import com.hydrosmart.irrigation.domain.model.commands.PatchWaterTankWaterAmount
 import com.hydrosmart.irrigation.interfaces.rest.resources.PatchWaterTankWaterAmountRemainingResource;
 
 public class PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler {
-    public static PatchWaterTankWaterAmountRemainingCommand toCommandFromResource(PatchWaterTankWaterAmountRemainingResource resource){
+    public static PatchWaterTankWaterAmountRemainingCommand toCommandFromResource(PatchWaterTankWaterAmountRemainingResource resource, Long cropId){
         return new PatchWaterTankWaterAmountRemainingCommand(
-                resource.id(),
+                cropId,
                 resource.waterAmount()
         );
     }

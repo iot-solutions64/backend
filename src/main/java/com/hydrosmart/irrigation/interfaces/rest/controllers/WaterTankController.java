@@ -84,9 +84,9 @@ public class WaterTankController {
         return ResponseEntity.ok(waterTankResource);
     }
 
-    @PatchMapping("/water-remaining")
-    public ResponseEntity<WaterTankResource> updateWaterRemaining(@RequestBody PatchWaterTankWaterAmountRemainingResource resource){
-        var patchWaterTankWaterAmountRemainingCommand = PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler.toCommandFromResource(resource);
+    @PatchMapping("{cropId}/water-remaining")
+    public ResponseEntity<WaterTankResource> updateWaterRemaining(@PathVariable Long cropId ,@RequestBody PatchWaterTankWaterAmountRemainingResource resource){
+        var patchWaterTankWaterAmountRemainingCommand = PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler.toCommandFromResource(resource, cropId);
         var waterTank = waterTankCommandService.handle(patchWaterTankWaterAmountRemainingCommand);
         if(waterTank.isEmpty()) return ResponseEntity.badRequest().build();
         var waterTankResource = WaterTankResourceFromEntityAssembler.toResourceFromEntity(waterTank.get());
