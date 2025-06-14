@@ -2,7 +2,7 @@ package com.hydrosmart.soil.domain.model.entities;
 
 import com.hydrosmart.soil.domain.model.commands.CreateHumidityCommand;
 import com.hydrosmart.soil.domain.model.commands.PatchHumidityCommand;
-import com.hydrosmart.soil.domain.model.commands.UpdateHumidityCommand;
+import com.hydrosmart.soil.domain.model.commands.PatchHumidityThresholdCommand;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -38,8 +38,7 @@ public class Humidity {
         this.humidityStatus = humidityStatus;
     }
 
-    public Humidity updateHumidity(UpdateHumidityCommand command, HumidityStatus humidityStatus){
-        this.humidity = command.humidity();
+    public Humidity patchHumidityThreshold(PatchHumidityThresholdCommand command, HumidityStatus humidityStatus){
         this.humidityMinThreshold = command.humidityMinThreshold();
         this.humidityMaxThreshold = command.humidityMaxThreshold();
         this.humidityStatus = humidityStatus;

@@ -3,15 +3,13 @@ package com.hydrosmart.soil;
 import com.hydrosmart.soil.application.internal.commandservices.TemperatureCommandServiceImpl;
 import com.hydrosmart.soil.domain.model.commands.CreateTemperatureCommand;
 import com.hydrosmart.soil.domain.model.commands.PatchTemperatureCommand;
-import com.hydrosmart.soil.domain.model.commands.UpdateTemperatureCommand;
+import com.hydrosmart.soil.domain.model.commands.PatchTemperatureThresholdCommand;
 import com.hydrosmart.soil.domain.model.entities.Temperature;
 import com.hydrosmart.soil.domain.model.entities.TemperatureStatus;
 import com.hydrosmart.soil.domain.model.valueobjects.TemperatureStatusList;
 import com.hydrosmart.soil.infrastructure.persistence.jpa.repositories.TemperatureRepository;
 import com.hydrosmart.soil.infrastructure.persistence.jpa.repositories.TemperatureStatusRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,9 +53,9 @@ public class TemperatureCommandServiceTests {
         }
 
         @Test
-        void testUpdateTemperatureSuccess() {
+        void testPatchTemperatureThresholdSuccess() {
                 // Arrange
-                UpdateTemperatureCommand command = new UpdateTemperatureCommand(1L, 32.0f, MIN, MAX);
+                PatchTemperatureThresholdCommand command = new PatchTemperatureThresholdCommand(1L, 32.0f, MIN, MAX);
                 Temperature existing = new Temperature(new CreateTemperatureCommand(25.0f, MIN, MAX),
                                 new TemperatureStatus(TemperatureStatusList.FAVORABLE));
                 existing.setId(1L);

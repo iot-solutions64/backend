@@ -3,7 +3,7 @@ package com.hydrosmart.soil;
 import com.hydrosmart.soil.application.internal.commandservices.HumidityCommandServiceImpl;
 import com.hydrosmart.soil.domain.model.commands.CreateHumidityCommand;
 import com.hydrosmart.soil.domain.model.commands.PatchHumidityCommand;
-import com.hydrosmart.soil.domain.model.commands.UpdateHumidityCommand;
+import com.hydrosmart.soil.domain.model.commands.PatchHumidityThresholdCommand;
 import com.hydrosmart.soil.domain.model.entities.Humidity;
 import com.hydrosmart.soil.domain.model.entities.HumidityStatus;
 import com.hydrosmart.soil.domain.model.valueobjects.HumidityStatusList;
@@ -60,8 +60,8 @@ public class HumidityCommandServiceTests {
     }
 
     @Test
-    public void testUpdateHumiditySuccess() {
-        UpdateHumidityCommand command = new UpdateHumidityCommand(1L, 65.0f, 50.0f, 70.0f);
+    public void testPatchHumidityThresholdSuccess() {
+        PatchHumidityThresholdCommand command = new PatchHumidityThresholdCommand(1L, 65.0f, 50.0f, 70.0f);
         Humidity existingHumidity = new Humidity();
         existingHumidity.setId(1L);
 
@@ -79,8 +79,8 @@ public class HumidityCommandServiceTests {
     }
 
     @Test
-    public void testUpdateHumidityHumidityNotFound() {
-        UpdateHumidityCommand command = new UpdateHumidityCommand(1L, 60.0f, 50.0f, 70.0f);
+    public void testPatchHumidityHumidityThresholdNotFound() {
+        PatchHumidityThresholdCommand command = new PatchHumidityThresholdCommand(1L, 60.0f, 50.0f, 70.0f);
 
         when(humidityRepository.findById(1L)).thenReturn(Optional.empty());
 
