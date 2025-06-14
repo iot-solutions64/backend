@@ -2,12 +2,14 @@ package com.hydrosmart.security.domain.model.aggregates;
 
 import com.hydrosmart.security.domain.model.entities.Role;
 import com.hydrosmart.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import com.hydrosmart.soil.domain.model.aggregates.Crop;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +42,9 @@ public class User extends AuditableAbstractAggregateRoot<User> {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Crop> cropList = new ArrayList<>();
 
     public User() {
         this.roles = new HashSet<>();
