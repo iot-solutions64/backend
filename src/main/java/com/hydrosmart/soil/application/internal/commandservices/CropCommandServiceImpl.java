@@ -28,8 +28,7 @@ public class CropCommandServiceImpl implements CropCommandService {
             HumidityRepository humidityRepository,
             UserContextFacade userContextFacade,
             IrrigationContextFacade irrigationContextFacade,
-            WaterTankContextFacade waterTankContextFacade
-    ) {
+            WaterTankContextFacade waterTankContextFacade) {
         this.cropRepository = cropRepository;
         this.temperatureRepository = temperatureRepository;
         this.humidityRepository = humidityRepository;
@@ -40,20 +39,42 @@ public class CropCommandServiceImpl implements CropCommandService {
 
     @Override
     public Optional<Crop> handle(CreateCropCommand command) {
+        // Validar usuario
         var user = userContextFacade.fetchUserById(command.userId());
-        var temperature = temperatureRepository.findById(command.temperatureId()).orElseThrow(() -> new RuntimeException("Temperature not found"));
-        var humidity = humidityRepository.findById(command.humidityId()).orElseThrow(() -> new RuntimeException("Humidity not found"));
-        var irrigation = irrigationContextFacade.fetchIrrigationById(command.irrigationId());
-        if(irrigation == null) throw new RuntimeException("Irrigation not found");
-        var waterTank = waterTankContextFacade.fetchWaterTankById(command.waterTankId());
-        if(waterTank == null) throw new RuntimeException("WaterTank not found");
-        try {
-            Crop crop = new Crop(command.name(),temperature, humidity, irrigation, waterTank,user);
-            cropRepository.save(crop);
-            return Optional.of(crop);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error while creating a new crop: " + e.getMessage());
+        if (user == null) {
+            throw new RuntimeException("User not found");
         }
+
+        // Validar temperatura
+        var temperatureOpt = temperatureRepository.findById(command.temperatureId());
+        if (temperatureOpt.isEmpty()) {
+            throw new RuntimeException("Temperature not found");
+        }
+        var temperature = temperatureOpt.get();
+
+        // Validar humedad
+        var humidityOpt = humidityRepository.findById(command.humidityId());
+        if (humidityOpt.isEmpty()) {
+            throw new RuntimeException("Humidity not found");
+        }
+        var humidity = humidityOpt.get();
+
+        // Validar riego
+        var irrigation = irrigationContextFacade.fetchIrrigationById(command.irrigationId());
+        if (irrigation == null) {
+            throw new RuntimeException("Irrigation not found");
+        }
+
+        // Validar tanque de agua
+        var waterTank = waterTankContextFacade.fetchWaterTankById(command.waterTankId());
+        if (waterTank == null) {
+            throw new RuntimeException("WaterTank not found");
+        }
+
+        // Solo si todo es válido, crear y guardar el Crop
+        Crop crop = new Crop(command.name(), temperature, humidity, irrigation, waterTank, user);
+        cropRepository.save(crop);
+        return Optional.of(crop);
     }
 
     @Override

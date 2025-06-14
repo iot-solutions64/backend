@@ -5,9 +5,10 @@ import com.hydrosmart.soil.domain.model.aggregates.Crop;
 import com.hydrosmart.soil.domain.model.queries.GetAllCropsByUserIdQuery;
 import com.hydrosmart.soil.domain.model.queries.GetCropByIdQuery;
 import com.hydrosmart.soil.infrastructure.persistence.jpa.repositories.CropRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,14 +18,10 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class CropQueryServiceTests {
+    @MockBean
     private CropRepository cropRepository;
+    @Autowired
     private CropQueryServiceImpl cropQueryService;
-
-    @BeforeEach
-    public void setUp() {
-        cropRepository = mock(CropRepository.class);
-        cropQueryService = new CropQueryServiceImpl(cropRepository);
-    }
 
     @Test
     public void testGetCropByIdQuerySuccess() {

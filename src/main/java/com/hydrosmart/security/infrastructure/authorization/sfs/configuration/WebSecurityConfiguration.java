@@ -27,7 +27,8 @@ import java.util.List;
  * <p>
  * This class is responsible for configuring the web security.
  * It enables the method security and configures the security filter chain.
- * It includes the authentication manager, the authentication provider, the password encoder and the authentication entry point.
+ * It includes the authentication manager, the authentication provider, the
+ * password encoder and the authentication entry point.
  * </p>
  */
 @Configuration
@@ -44,6 +45,7 @@ public class WebSecurityConfiguration {
 
     /**
      * This method creates the Bearer Authorization Request Filter.
+     * 
      * @return The Bearer Authorization Request Filter
      */
     @Bean
@@ -53,16 +55,19 @@ public class WebSecurityConfiguration {
 
     /**
      * This method creates the authentication manager.
+     * 
      * @param authenticationConfiguration The authentication configuration
      * @return The authentication manager
      */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     /**
      * This method creates the authentication provider.
+     * 
      * @return The authentication provider
      */
     @Bean
@@ -75,6 +80,7 @@ public class WebSecurityConfiguration {
 
     /**
      * This method creates the password encoder.
+     * 
      * @return The password encoder
      */
     @Bean
@@ -91,7 +97,7 @@ public class WebSecurityConfiguration {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(corsConfigurer -> corsConfigurer.configurationSource(_ -> {
+        http.cors(corsConfigurer -> corsConfigurer.configurationSource(request -> {
             var cors = new CorsConfiguration();
             cors.setAllowedOrigins(List.of("*"));
             cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
@@ -99,8 +105,10 @@ public class WebSecurityConfiguration {
             return cors;
         }));
         http.csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(unauthorizedRequestHandler))
-                .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(
+                        exceptionHandling -> exceptionHandling.authenticationEntryPoint(unauthorizedRequestHandler))
+                .sessionManagement(
+                        sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(
                                 "/api/v1/authentication/**",
@@ -108,7 +116,8 @@ public class WebSecurityConfiguration {
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
-                                "/webjars/**").permitAll()
+                                "/webjars/**")
+                        .permitAll()
                         .anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authorizationRequestFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -117,12 +126,15 @@ public class WebSecurityConfiguration {
 
     /**
      * This is the constructor of the class.
-     * @param userDetailsService The user details service
-     * @param tokenService The token service
-     * @param hashingService The hashing service
+     * 
+     * @param userDetailsService       The user details service
+     * @param tokenService             The token service
+     * @param hashingService           The hashing service
      * @param authenticationEntryPoint The authentication entry point
      */
-    public WebSecurityConfiguration(@Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService, BearerTokenService tokenService, BCryptHashingService hashingService, AuthenticationEntryPoint authenticationEntryPoint) {
+    public WebSecurityConfiguration(@Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService,
+            BearerTokenService tokenService, BCryptHashingService hashingService,
+            AuthenticationEntryPoint authenticationEntryPoint) {
         this.userDetailsService = userDetailsService;
         this.tokenService = tokenService;
         this.hashingService = hashingService;

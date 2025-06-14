@@ -3,15 +3,16 @@ package com.hydrosmart.soil;
 import com.hydrosmart.soil.application.internal.commandservices.HumidityCommandServiceImpl;
 import com.hydrosmart.soil.domain.model.commands.CreateHumidityCommand;
 import com.hydrosmart.soil.domain.model.commands.PatchHumidityCommand;
-import com.hydrosmart.soil.domain.model.commands.UpdateHumidityCommand;
+import com.hydrosmart.soil.domain.model.commands.PatchHumidityThresholdCommand;
 import com.hydrosmart.soil.domain.model.entities.Humidity;
 import com.hydrosmart.soil.domain.model.entities.HumidityStatus;
 import com.hydrosmart.soil.domain.model.valueobjects.HumidityStatusList;
 import com.hydrosmart.soil.infrastructure.persistence.jpa.repositories.HumidityRepository;
 import com.hydrosmart.soil.infrastructure.persistence.jpa.repositories.HumidityStatusRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
@@ -21,16 +22,12 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class HumidityCommandServiceTests {
+    @MockBean
     private HumidityRepository humidityRepository;
+    @MockBean
     private HumidityStatusRepository humidityStatusRepository;
+    @Autowired
     private HumidityCommandServiceImpl humidityCommandService;
-
-    @BeforeEach
-    public void setUp() {
-        humidityRepository = mock(HumidityRepository.class);
-        humidityStatusRepository = mock(HumidityStatusRepository.class);
-        humidityCommandService = new HumidityCommandServiceImpl(humidityRepository, humidityStatusRepository);
-    }
 
     @Test
     public void testCreateHumiditySuccess() {
@@ -63,8 +60,8 @@ public class HumidityCommandServiceTests {
     }
 
     @Test
-    public void testUpdateHumiditySuccess() {
-        UpdateHumidityCommand command = new UpdateHumidityCommand(1L, 65.0f, 50.0f, 70.0f);
+    public void testPatchHumidityThresholdSuccess() {
+        PatchHumidityThresholdCommand command = new PatchHumidityThresholdCommand(1L, 65.0f, 50.0f, 70.0f);
         Humidity existingHumidity = new Humidity();
         existingHumidity.setId(1L);
 
@@ -82,8 +79,8 @@ public class HumidityCommandServiceTests {
     }
 
     @Test
-    public void testUpdateHumidityHumidityNotFound() {
-        UpdateHumidityCommand command = new UpdateHumidityCommand(1L, 60.0f, 50.0f, 70.0f);
+    public void testPatchHumidityHumidityThresholdNotFound() {
+        PatchHumidityThresholdCommand command = new PatchHumidityThresholdCommand(1L, 60.0f, 50.0f, 70.0f);
 
         when(humidityRepository.findById(1L)).thenReturn(Optional.empty());
 

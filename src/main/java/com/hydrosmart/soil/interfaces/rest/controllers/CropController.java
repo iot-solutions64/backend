@@ -83,27 +83,27 @@ public class CropController {
         return ResponseEntity.ok(cropResourceList);
     }
 
-    @PutMapping("/{cropId}/temperature")
-    public ResponseEntity<TemperatureResource> updateCropTemperature(@PathVariable Long cropId, @RequestBody UpdateTemperatureResource resource){
+    @PatchMapping("/{cropId}/temperature-threshold")
+    public ResponseEntity<TemperatureResource> patchTemperatureThreshold(@PathVariable Long cropId, @RequestBody PatchTemperatureThresholdResource resource){
         var getCropByIdQuery = new GetCropByIdQuery(cropId);
         var crop = cropQueryService.handle(getCropByIdQuery);
         if(crop.isEmpty()) return ResponseEntity.notFound().build();
         var temperatureId = crop.get().getTemperature().getId();
-        var updateTemperatureCommand = UpdateTemperatureCommandFromResourceAssembler.toCommandFromResource(resource, temperatureId);
-        var temperature = temperatureCommandService.handle(updateTemperatureCommand);
+        var patchTemperatureThresholdCommand = PatchTemperatureThresholdCommandFromResourceAssembler.toCommandFromResource(resource, temperatureId);
+        var temperature = temperatureCommandService.handle(patchTemperatureThresholdCommand);
         if(temperature.isEmpty()) return ResponseEntity.notFound().build();
         var temperatureResource = TemperatureResourceFromEntityAssembler.toResourceFromEntity(temperature.get());
         return ResponseEntity.ok(temperatureResource);
     }
 
-    @PutMapping("/{cropId}/humidity")
-    public ResponseEntity<HumidityResource> updateCropHumidity(@PathVariable Long cropId, @RequestBody UpdateHumidityResource resource){
+    @PatchMapping("/{cropId}/humidity-threshold")
+    public ResponseEntity<HumidityResource> patchHumidityThresholds(@PathVariable Long cropId, @RequestBody PatchHumidityThresholdResource resource){
         var getCropByIdQuery = new GetCropByIdQuery(cropId);
         var crop = cropQueryService.handle(getCropByIdQuery);
         if(crop.isEmpty()) return ResponseEntity.notFound().build();
         var humidityId = crop.get().getHumidity().getId();
-        var updateHumidityCommand = UpdateHumidityCommandFromResourceAssembler.toCommandFromResource(resource, humidityId);
-        var humidity = humidityCommandService.handle(updateHumidityCommand);
+        var patchHumidityThresholdCommand = PatchHumidityThresholdCommandFromResourceAssembler.toCommandFromResource(resource, humidityId);
+        var humidity = humidityCommandService.handle(patchHumidityThresholdCommand);
         if(humidity.isEmpty()) return ResponseEntity.notFound().build();
         var humidityResource = HumidityResourceFromEntityAssembler.toResourceFromEntity(humidity.get());
         return ResponseEntity.ok(humidityResource);

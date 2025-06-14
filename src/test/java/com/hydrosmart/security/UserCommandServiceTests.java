@@ -16,7 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,14 +30,15 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class UserCommandServiceTests {
-
-    @Mock
+    @Autowired
     private UserRepository userRepository;
-    @Mock private HashingService hashingService;
-    @Mock private TokenService tokenService;
-    @Mock private RoleRepository roleRepository;
-
-    @InjectMocks
+    @Autowired
+    private HashingService hashingService;
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
     private UserCommandServiceImpl userCommandService;
 
     private final String username = "testuser";
@@ -46,7 +50,6 @@ class UserCommandServiceTests {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         user = new User(username, hashedPassword);
         user.setId(1L);
         user.setRoles(Set.of(new Role(Roles.ROLE_USER)));
@@ -130,5 +133,39 @@ class UserCommandServiceTests {
         });
 
         assertEquals("Role title not found", exception.getMessage());
+    }
+
+    @Configuration
+    static class MockConfig {
+        @Bean
+        public UserRepository userRepository() {
+            return org.mockito.Mockito.mock(UserRepository.class);
+        }
+
+        @Bean
+        public HashingService hashingService() {
+            return org.mockito.Mockito.mock(HashingService.class);
+        }
+
+        @Bean
+        public TokenService tokenService() {
+            return org.mockito.Mockito.mock(TokenService.class);
+        }
+
+        @Bean
+        public RoleRepository roleRepository() {
+            return org.mockito.Mockito.mock(RoleRepository.class);
+        }
+
+        @Bean
+        public com.hydrosmart.security.infrastructure.tokens.jwt.BearerTokenService bearerTokenService() {
+            return org.mockito.Mockito.mock(com.hydrosmart.security.infrastructure.tokens.jwt.BearerTokenService.class);
+        }
+
+        @Bean
+        public UserCommandServiceImpl userCommandServiceImpl(UserRepository userRepository,
+                HashingService hashingService, TokenService tokenService, RoleRepository roleRepository) {
+            return new UserCommandServiceImpl(userRepository, hashingService, tokenService, roleRepository);
+        }
     }
 }

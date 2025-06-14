@@ -2,7 +2,7 @@ package com.hydrosmart.soil.application.internal.commandservices;
 
 import com.hydrosmart.soil.domain.model.commands.CreateHumidityCommand;
 import com.hydrosmart.soil.domain.model.commands.PatchHumidityCommand;
-import com.hydrosmart.soil.domain.model.commands.UpdateHumidityCommand;
+import com.hydrosmart.soil.domain.model.commands.PatchHumidityThresholdCommand;
 import com.hydrosmart.soil.domain.model.entities.Humidity;
 import com.hydrosmart.soil.domain.model.entities.HumidityStatus;
 import com.hydrosmart.soil.domain.model.valueobjects.HumidityStatusList;
@@ -56,11 +56,11 @@ public class HumidityCommandServiceImpl implements HumidityCommandService {
     }
 
     @Override
-    public Optional<Humidity> handle(UpdateHumidityCommand command) {
+    public Optional<Humidity> handle(PatchHumidityThresholdCommand command) {
         var foundHumidity = findHumidity(command.id());
         validateHumidity(command.humidityMinThreshold(), command.humidityMaxThreshold());
-        var status = validateHumidityStatus(command.humidity(), command.humidityMinThreshold(), command.humidityMaxThreshold());
-        var updatedHumidity = humidityRepository.save(foundHumidity.updateHumidity(command, status));
+        var status = validateHumidityStatus(foundHumidity.getHumidity(), command.humidityMinThreshold(), command.humidityMaxThreshold());
+        var updatedHumidity = humidityRepository.save(foundHumidity.patchHumidityThreshold(command, status));
         return Optional.of(updatedHumidity);
     }
 

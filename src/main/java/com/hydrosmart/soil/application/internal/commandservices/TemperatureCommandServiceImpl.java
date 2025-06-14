@@ -2,7 +2,7 @@ package com.hydrosmart.soil.application.internal.commandservices;
 
 import com.hydrosmart.soil.domain.model.commands.CreateTemperatureCommand;
 import com.hydrosmart.soil.domain.model.commands.PatchTemperatureCommand;
-import com.hydrosmart.soil.domain.model.commands.UpdateTemperatureCommand;
+import com.hydrosmart.soil.domain.model.commands.PatchTemperatureThresholdCommand;
 import com.hydrosmart.soil.domain.model.entities.Temperature;
 import com.hydrosmart.soil.domain.model.entities.TemperatureStatus;
 import com.hydrosmart.soil.domain.model.valueobjects.TemperatureStatusList;
@@ -56,11 +56,11 @@ public class TemperatureCommandServiceImpl implements TemperatureCommandService 
     }
 
     @Override
-    public Optional<Temperature> handle(UpdateTemperatureCommand command) {
+    public Optional<Temperature> handle(PatchTemperatureThresholdCommand command) {
         var foundTemperature = findTemperature(command.id());
         validateTemperature(command.temperatureMinThreshold(), command.temperatureMaxThreshold());
-        var status = validateTemperatureStatus(command.temperature(), command.temperatureMinThreshold(), command.temperatureMaxThreshold());
-        var updatedTemperature = temperatureRepository.save(foundTemperature.updateTemperature(command, status));
+        var status = validateTemperatureStatus(foundTemperature.getTemperature(), command.temperatureMinThreshold(), command.temperatureMaxThreshold());
+        var updatedTemperature = temperatureRepository.save(foundTemperature.patchTemperatureThreshold(command, status));
         return Optional.of(updatedTemperature);
     }
 
