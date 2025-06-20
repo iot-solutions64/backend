@@ -100,7 +100,7 @@ public class WebSecurityConfiguration {
         http.cors(corsConfigurer -> corsConfigurer.configurationSource(request -> {
             var cors = new CorsConfiguration();
             cors.setAllowedOrigins(List.of("*"));
-            cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+            cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
             cors.setAllowedHeaders(List.of("*"));
             return cors;
         }));
@@ -111,9 +111,9 @@ public class WebSecurityConfiguration {
                         sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(
-                                "api/v1/crop/{cropId}/temperature",
-                                "api/v1/crop/{cropId}/humidity",
-                                "api/v1/crop/{cropId}/water-tanks/water-remaining",
+                                "/api/v1/crop/{cropId}/temperature",
+                                "/api/v1/crop/{cropId}/humidity",
+                                "/api/v1/water-tanks/{cropId}/water-remaining",
                                 "/api/v1/authentication/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
