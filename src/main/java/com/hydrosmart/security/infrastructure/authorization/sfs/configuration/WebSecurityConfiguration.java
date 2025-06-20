@@ -111,9 +111,9 @@ public class WebSecurityConfiguration {
                         sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(
-                                "/api/v1/crop/{cropId}/temperature",
-                                "/api/v1/crop/{cropId}/humidity",
-                                "/api/v1/water-tanks/{cropId}/water-remaining",
+                                "/api/v1/crop/*/temperature",
+                                "/api/v1/crop/*/humidity",
+                                "/api/v1/water-tanks/*/water-remaining",
                                 "/api/v1/iot/data",
                                 "/api/v1/authentication/**",
                                 "/v3/api-docs/**",
