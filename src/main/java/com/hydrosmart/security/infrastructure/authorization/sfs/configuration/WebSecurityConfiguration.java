@@ -114,6 +114,7 @@ public class WebSecurityConfiguration {
                                 "/api/v1/crop/{cropId}/temperature",
                                 "/api/v1/crop/{cropId}/humidity",
                                 "/api/v1/water-tanks/{cropId}/water-remaining",
+                                "/api/v1/iot/data",
                                 "/api/v1/authentication/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
