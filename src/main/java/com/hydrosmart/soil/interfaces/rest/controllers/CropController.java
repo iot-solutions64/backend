@@ -83,7 +83,7 @@ public class CropController {
         return ResponseEntity.ok(cropResourceList);
     }
 
-    @GetMapping("/{userId}/light")
+    @GetMapping("/user/{userId}/light")
     public ResponseEntity<List<CropLightResource>> getAllLightCropsByUserId(@PathVariable Long userId){
         var getAllCropsByUserIdQuery = new GetAllCropsByUserIdQuery(userId);
         var cropList = cropQueryService.handle(getAllCropsByUserIdQuery);
