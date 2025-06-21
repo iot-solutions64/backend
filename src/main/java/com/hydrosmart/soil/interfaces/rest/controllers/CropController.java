@@ -83,6 +83,14 @@ public class CropController {
         return ResponseEntity.ok(cropResourceList);
     }
 
+    @GetMapping("/{userId}/light")
+    public ResponseEntity<List<CropLightResource>> getAllLightCropsByUserId(@PathVariable Long userId){
+        var getAllCropsByUserIdQuery = new GetAllCropsByUserIdQuery(userId);
+        var cropList = cropQueryService.handle(getAllCropsByUserIdQuery);
+        var cropResourceList = cropList.stream().map(CropLightResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(cropResourceList);
+    }
+
     @PatchMapping("/{cropId}/temperature-threshold")
     public ResponseEntity<TemperatureResource> patchTemperatureThreshold(@PathVariable Long cropId, @RequestBody PatchTemperatureThresholdResource resource){
         var getCropByIdQuery = new GetCropByIdQuery(cropId);
