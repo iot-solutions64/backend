@@ -113,6 +113,7 @@ public class WebSecurityConfiguration {
                         .requestMatchers(
                                 "/api/v1/crop/*/temperature",
                                 "/api/v1/crop/*/humidity",
+                                "/api/v1/crop/*/thresholds",
                                 "/api/v1/water-tanks/*/water-remaining",
                                 "/api/v1/iot/data",
                                 "/api/v1/authentication/**",

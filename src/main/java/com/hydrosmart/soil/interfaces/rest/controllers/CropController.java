@@ -48,6 +48,15 @@ public class CropController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
+    @GetMapping("/{cropId}/thresholds")
+    public ResponseEntity<CropThresholdsResource> getCropThresholdsById(@PathVariable Long cropId){
+        var getCropByIdQuery = new GetCropByIdQuery(cropId);
+        var crop = cropQueryService.handle(getCropByIdQuery);
+        if(crop.isEmpty()) return ResponseEntity.notFound().build();
+        return crop.map(value -> ResponseEntity.ok(CropThresholdsResourceFromEntityAssembler.toResourceFromEntity(value)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/{cropId}/reference")
     public ResponseEntity<CropReferenceResource> getCropById(@PathVariable Long cropId){
         var getCropByIdQuery = new GetCropByIdQuery(cropId);
