@@ -84,7 +84,7 @@ public class CropController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("user/{userId}/reference")
     public ResponseEntity<List<CropReferenceResource>> getAllCropsByUserId(@PathVariable Long userId){
         var getAllCropsByUserIdQuery = new GetAllCropsByUserIdQuery(userId);
         var cropList = cropQueryService.handle(getAllCropsByUserIdQuery);

@@ -79,18 +79,18 @@ public class WaterTankController {
         return ResponseEntity.ok(waterTankResource);
     }
 
-    @PatchMapping("{cropId}/water-remaining")
-    public ResponseEntity<WaterTankResource> updateWaterRemaining(@PathVariable Long cropId ,@RequestBody PatchWaterTankWaterAmountRemainingResource resource){
-        var patchWaterTankWaterAmountRemainingCommand = PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler.toCommandFromResource(resource, cropId);
+    @PatchMapping("{id}/water-remaining")
+    public ResponseEntity<WaterTankResource> updateWaterRemaining(@PathVariable Long id ,@RequestBody PatchWaterTankWaterAmountRemainingResource resource){
+        var patchWaterTankWaterAmountRemainingCommand = PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler.toCommandFromResource(resource, id);
         var waterTank = waterTankCommandService.handle(patchWaterTankWaterAmountRemainingCommand);
         if(waterTank.isEmpty()) return ResponseEntity.badRequest().build();
         var waterTankResource = WaterTankResourceFromEntityAssembler.toResourceFromEntity(waterTank.get());
         return ResponseEntity.ok(waterTankResource);
     }
 
-    @PatchMapping("{cropId}/water-capacity")
-    public ResponseEntity<WaterTankResource> updateMaxWaterCapacity(@PathVariable Long cropId, @RequestBody PatchWaterTankMaxWaterCapacityResource resource) {
-        var patchWaterTankMaxWaterCapacityCommand = PatchWaterTankMaxWaterCapacityCommandFromResourceAssembler.toCommandFromResource(resource, cropId);
+    @PatchMapping("{id}/water-capacity")
+    public ResponseEntity<WaterTankResource> updateMaxWaterCapacity(@PathVariable Long id, @RequestBody PatchWaterTankMaxWaterCapacityResource resource) {
+        var patchWaterTankMaxWaterCapacityCommand = PatchWaterTankMaxWaterCapacityCommandFromResourceAssembler.toCommandFromResource(resource, id);
         var waterTank = waterTankCommandService.handle(patchWaterTankMaxWaterCapacityCommand);
         if (waterTank.isEmpty()) return ResponseEntity.badRequest().build();
         var waterTankResource = WaterTankResourceFromEntityAssembler.toResourceFromEntity(waterTank.get());
