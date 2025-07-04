@@ -9,6 +9,7 @@ public interface WaterTankCommandService {
     Optional<WaterTank> handle(CreateWaterTankCommand command);
     Optional<WaterTank> handle(PatchWaterTankNameCommand command);
     Optional<WaterTank> handle(PatchWaterTankWaterAmountRemainingCommand command);
+    Optional<WaterTank> handle(PatchWaterTankMaxWaterCapacityCommand command);
     Optional<WaterTank> handle(PatchWaterTankStatusCommand command);
     void handle(DeleteWaterTankCommand command);
 }
