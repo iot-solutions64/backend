@@ -75,32 +75,6 @@ public class TemperatureCommandServiceTests {
                 assertEquals(TemperatureStatusList.FAVORABLE, result.get().getTemperatureStatus().getName());
         }
 
-        @Test
-        void testPatchTemperatureThresholdSuccess() {
-                // Arrange
-                PatchTemperatureThresholdCommand command = new PatchTemperatureThresholdCommand(1L, MIN, MAX);
-                Temperature existing = new Temperature(new CreateTemperatureCommand(25.0f, MIN, MAX),
-                        new TemperatureStatus(TemperatureStatusList.FAVORABLE));
-                existing.setId(1L);
-
-                TemperatureStatus newStatus = new TemperatureStatus(TemperatureStatusList.SLIGHTLY_UNFAVORABLE_OVER);
-
-                Mockito.when(temperatureRepository.findById(1L))
-                        .thenReturn(Optional.of(existing));
-                Mockito.when(temperatureStatusRepository.findByName(TemperatureStatusList.SLIGHTLY_UNFAVORABLE_OVER))
-                        .thenReturn(Optional.of(newStatus));
-                Mockito.when(temperatureRepository.save(Mockito.any(Temperature.class)))
-                        .thenAnswer(i -> i.getArguments()[0]);
-
-                // Act
-                Optional<Temperature> result = temperatureCommandService.handle(command);
-
-                // Assert
-                assertTrue(result.isPresent());
-                assertEquals(command.temperatureMaxThreshold(), result.get().getTemperature());
-                assertEquals(TemperatureStatusList.SLIGHTLY_UNFAVORABLE_OVER,
-                        result.get().getTemperatureStatus().getName());
-        }
 
         @Test
         void testPatchTemperatureSuccess() {

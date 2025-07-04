@@ -150,9 +150,13 @@ public class CropController {
 
     @DeleteMapping("/{cropId}")
     public ResponseEntity<String> deleteCrop(@PathVariable Long cropId) {
-        cropCommandService.deleteById(cropId);
-        String message = "Crop " + cropId + " deleted";
-        return ResponseEntity.ok(message);
+        try {
+            cropCommandService.deleteById(cropId);
+            String message = "Crop " + cropId + " deleted";
+            return ResponseEntity.ok(message);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body("Crop with ID " + cropId + " does not exist");
+        }
     }
 
 }
