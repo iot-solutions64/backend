@@ -88,7 +88,7 @@ public class WaterTankController {
         return ResponseEntity.ok(waterTankResource);
     }
 
-    @PatchMapping("{cropId}/water-total")
+    @PatchMapping("{cropId}/water-capacity")
     public ResponseEntity<WaterTankResource> updateMaxWaterCapacity(@PathVariable Long cropId, @RequestBody PatchWaterTankMaxWaterCapacityResource resource) {
         var patchWaterTankMaxWaterCapacityCommand = PatchWaterTankMaxWaterCapacityCommandFromResourceAssembler.toCommandFromResource(resource, cropId);
         var waterTank = waterTankCommandService.handle(patchWaterTankMaxWaterCapacityCommand);
