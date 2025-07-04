@@ -35,7 +35,7 @@ class WaterTankCommandServiceImplTest {
 
         CreateWaterTankCommand command = new CreateWaterTankCommand("Tank1", 100.0f, 500.0f, 1L);
         WaterTankStatus status = new WaterTankStatus(WaterTankStatusList.DEACTIVATED);
-        User user = new User(); // Asegúrate de tener este constructor o usar mock(User.class)
+        User user = new User();
 
         when(statusRepo.findByName(WaterTankStatusList.DEACTIVATED)).thenReturn(Optional.of(status));
         when(userContext.fetchUserById(command.userId())).thenReturn(user);

@@ -17,7 +17,7 @@ class WaterTankTest {
         // Arrange
         CreateWaterTankCommand command = new CreateWaterTankCommand("Tank1", 100.0f, 500.0f, 1L);
         WaterTankStatus status = new WaterTankStatus(WaterTankStatusList.DEACTIVATED);
-        User user = new User(); // Replace with actual User object or mock
+        User user = new User();
 
         // Act
         WaterTank waterTank = new WaterTank(command, status, user);

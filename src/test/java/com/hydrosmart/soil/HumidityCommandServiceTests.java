@@ -12,7 +12,8 @@ import com.hydrosmart.soil.infrastructure.persistence.jpa.repositories.HumidityS
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Optional;
 
@@ -22,10 +23,32 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class HumidityCommandServiceTests {
-    @MockBean
+
+    @Configuration
+    static class MockConfig {
+        @Bean
+        public HumidityRepository humidityRepository() {
+            return mock(HumidityRepository.class);
+        }
+
+        @Bean
+        public HumidityStatusRepository humidityStatusRepository() {
+            return mock(HumidityStatusRepository.class);
+        }
+
+        @Bean
+        public HumidityCommandServiceImpl humidityCommandService(HumidityRepository humidityRepository,
+                                                                 HumidityStatusRepository humidityStatusRepository) {
+            return new HumidityCommandServiceImpl(humidityRepository, humidityStatusRepository);
+        }
+    }
+
+    @Autowired
     private HumidityRepository humidityRepository;
-    @MockBean
+
+    @Autowired
     private HumidityStatusRepository humidityStatusRepository;
+
     @Autowired
     private HumidityCommandServiceImpl humidityCommandService;
 
@@ -61,7 +84,7 @@ public class HumidityCommandServiceTests {
 
     @Test
     public void testPatchHumidityThresholdSuccess() {
-        PatchHumidityThresholdCommand command = new PatchHumidityThresholdCommand(1L, 65.0f, 50.0f, 70.0f);
+        PatchHumidityThresholdCommand command = new PatchHumidityThresholdCommand(1L, 65.0f,  70.0f);
         Humidity existingHumidity = new Humidity();
         existingHumidity.setId(1L);
 
@@ -80,7 +103,7 @@ public class HumidityCommandServiceTests {
 
     @Test
     public void testPatchHumidityHumidityThresholdNotFound() {
-        PatchHumidityThresholdCommand command = new PatchHumidityThresholdCommand(1L, 60.0f, 50.0f, 70.0f);
+        PatchHumidityThresholdCommand command = new PatchHumidityThresholdCommand(1L, 60.0f, 100.0f);
 
         when(humidityRepository.findById(1L)).thenReturn(Optional.empty());
 

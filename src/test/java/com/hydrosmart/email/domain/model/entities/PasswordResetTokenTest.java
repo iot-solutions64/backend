@@ -33,3 +33,5 @@ class PasswordResetTokenTest {
         assertEquals(expirationDate, token.getExpirationDate());
     }
 }
+
+

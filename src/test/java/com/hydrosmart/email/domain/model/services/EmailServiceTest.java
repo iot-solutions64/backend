@@ -9,7 +9,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmailServiceTest {
-
     @Test
     void testSendPasswordResetEmail() {
         // Arrange
