@@ -8,7 +8,8 @@ import com.hydrosmart.soil.infrastructure.persistence.jpa.repositories.CropRepos
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +19,23 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class CropQueryServiceTests {
-    @MockBean
+
+    @Configuration
+    static class MockConfig {
+        @Bean
+        public CropRepository cropRepository() {
+            return mock(CropRepository.class);
+        }
+
+        @Bean
+        public CropQueryServiceImpl cropQueryService(CropRepository cropRepository) {
+            return new CropQueryServiceImpl(cropRepository);
+        }
+    }
+
+    @Autowired
     private CropRepository cropRepository;
+
     @Autowired
     private CropQueryServiceImpl cropQueryService;
 

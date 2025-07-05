@@ -1,20 +1,15 @@
 package com.hydrosmart.irrigation.interfaces.rest.controllers;
 
 import com.hydrosmart.irrigation.domain.model.commands.DeleteWaterTankCommand;
+import com.hydrosmart.irrigation.domain.model.commands.PatchWaterTankMaxWaterCapacityCommand;
 import com.hydrosmart.irrigation.domain.model.commands.PatchWaterTankStatusCommand;
 import com.hydrosmart.irrigation.domain.model.queries.GetWaterTankByIdQuery;
 import com.hydrosmart.irrigation.domain.model.queries.GetWaterTanksByUserId;
 import com.hydrosmart.irrigation.domain.model.valueobjects.WaterTankStatusList;
 import com.hydrosmart.irrigation.domain.services.commandservices.WaterTankCommandService;
 import com.hydrosmart.irrigation.domain.services.queryservices.WaterTankQueryService;
-import com.hydrosmart.irrigation.interfaces.rest.resources.CreateWaterTankResource;
-import com.hydrosmart.irrigation.interfaces.rest.resources.PatchWaterTankNameResource;
-import com.hydrosmart.irrigation.interfaces.rest.resources.PatchWaterTankWaterAmountRemainingResource;
-import com.hydrosmart.irrigation.interfaces.rest.resources.WaterTankResource;
-import com.hydrosmart.irrigation.interfaces.rest.transform.CreateWaterTankCommandFromResourceAssembler;
-import com.hydrosmart.irrigation.interfaces.rest.transform.PatchWaterTankNameCommandFromResourceAssembler;
-import com.hydrosmart.irrigation.interfaces.rest.transform.PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler;
-import com.hydrosmart.irrigation.interfaces.rest.transform.WaterTankResourceFromEntityAssembler;
+import com.hydrosmart.irrigation.interfaces.rest.resources.*;
+import com.hydrosmart.irrigation.interfaces.rest.transform.*;
 import com.hydrosmart.shared.constants.AppConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -84,11 +79,20 @@ public class WaterTankController {
         return ResponseEntity.ok(waterTankResource);
     }
 
-    @PatchMapping("{cropId}/water-remaining")
-    public ResponseEntity<WaterTankResource> updateWaterRemaining(@PathVariable Long cropId ,@RequestBody PatchWaterTankWaterAmountRemainingResource resource){
-        var patchWaterTankWaterAmountRemainingCommand = PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler.toCommandFromResource(resource, cropId);
+    @PatchMapping("{id}/water-remaining")
+    public ResponseEntity<WaterTankResource> updateWaterRemaining(@PathVariable Long id ,@RequestBody PatchWaterTankWaterAmountRemainingResource resource){
+        var patchWaterTankWaterAmountRemainingCommand = PatchWaterTankWaterAmountRemainingCommandFromResourceAssembler.toCommandFromResource(resource, id);
         var waterTank = waterTankCommandService.handle(patchWaterTankWaterAmountRemainingCommand);
         if(waterTank.isEmpty()) return ResponseEntity.badRequest().build();
+        var waterTankResource = WaterTankResourceFromEntityAssembler.toResourceFromEntity(waterTank.get());
+        return ResponseEntity.ok(waterTankResource);
+    }
+
+    @PatchMapping("{id}/water-capacity")
+    public ResponseEntity<WaterTankResource> updateMaxWaterCapacity(@PathVariable Long id, @RequestBody PatchWaterTankMaxWaterCapacityResource resource) {
+        var patchWaterTankMaxWaterCapacityCommand = PatchWaterTankMaxWaterCapacityCommandFromResourceAssembler.toCommandFromResource(resource, id);
+        var waterTank = waterTankCommandService.handle(patchWaterTankMaxWaterCapacityCommand);
+        if (waterTank.isEmpty()) return ResponseEntity.badRequest().build();
         var waterTankResource = WaterTankResourceFromEntityAssembler.toResourceFromEntity(waterTank.get());
         return ResponseEntity.ok(waterTankResource);
     }

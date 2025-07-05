@@ -64,6 +64,15 @@ public class WaterTankCommandServiceImpl implements WaterTankCommandService {
     }
 
     @Override
+    public Optional<WaterTank> handle(PatchWaterTankMaxWaterCapacityCommand command) {
+        WaterTank foundWaterTank = waterTankRepository
+                .findById(command.id())
+                .orElseThrow(() -> new RuntimeException("Water Tank not found"));
+        var patchedWaterTank = waterTankRepository.save(foundWaterTank.patchMaxWaterAmount(command));
+        return Optional.of(patchedWaterTank);
+    }
+
+    @Override
     public Optional<WaterTank> handle(PatchWaterTankStatusCommand command) {
         WaterTank foundWaterTank = waterTankRepository
                 .findById(command.id())

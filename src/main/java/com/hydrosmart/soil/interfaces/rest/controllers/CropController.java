@@ -84,7 +84,7 @@ public class CropController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("user/{userId}/reference")
     public ResponseEntity<List<CropReferenceResource>> getAllCropsByUserId(@PathVariable Long userId){
         var getAllCropsByUserIdQuery = new GetAllCropsByUserIdQuery(userId);
         var cropList = cropQueryService.handle(getAllCropsByUserIdQuery);
@@ -150,9 +150,13 @@ public class CropController {
 
     @DeleteMapping("/{cropId}")
     public ResponseEntity<String> deleteCrop(@PathVariable Long cropId) {
-        cropCommandService.deleteById(cropId);
-        String message = "Crop " + cropId + " deleted";
-        return ResponseEntity.ok(message);
+        try {
+            cropCommandService.deleteById(cropId);
+            String message = "Crop " + cropId + " deleted";
+            return ResponseEntity.ok(message);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body("Crop with ID " + cropId + " does not exist");
+        }
     }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     @Autowired
-    private JavaMailSender mailSender;
+    JavaMailSender mailSender;
 
     public void sendPasswordResetEmail(String to, String token) {
         String resetUrl = "http://localhost:8080/password-reset/confirm?token=" + token;

@@ -1,5 +1,6 @@
 package com.hydrosmart.irrigation.domain.model.aggregates;
 
+import com.hydrosmart.irrigation.domain.model.commands.PatchWaterTankMaxWaterCapacityCommand;
 import com.hydrosmart.irrigation.domain.model.commands.PatchWaterTankNameCommand;
 import com.hydrosmart.irrigation.domain.model.commands.PatchWaterTankWaterAmountRemainingCommand;
 import com.hydrosmart.irrigation.domain.model.commands.CreateWaterTankCommand;
@@ -57,6 +58,11 @@ public class WaterTank extends AuditableAbstractAggregateRoot<WaterTank> {
 
     public WaterTank patchWaterAmount(PatchWaterTankWaterAmountRemainingCommand command) {
         this.waterAmountRemaining = command.waterAmountRemaining();
+        return this;
+    }
+
+    public WaterTank patchMaxWaterAmount(PatchWaterTankMaxWaterCapacityCommand command) {
+        this.maxWaterCapacity = command.maxWaterCapacity();
         return this;
     }
 

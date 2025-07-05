@@ -79,6 +79,10 @@ public class CropCommandServiceImpl implements CropCommandService {
 
     @Override
     public void deleteById(Long cropId) {
+        if (!cropRepository.existsById(cropId)) {
+            throw new RuntimeException("Crop with ID " + cropId + " does not exist");
+        }
         cropRepository.deleteById(cropId);
     }
 }
+
